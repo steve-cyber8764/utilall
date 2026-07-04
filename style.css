@@ -209,6 +209,7 @@ body {
   transition: var(--transition-smooth);
   position: relative;
   overflow: hidden;
+  text-decoration: none;
 }
 
 .nav-item::before {
@@ -454,6 +455,7 @@ body {
   cursor: pointer;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
   transition: var(--transition-bounce);
+  text-decoration: none;
 }
 
 .dashboard-card:hover {
@@ -555,6 +557,7 @@ body {
   color: var(--accent-cyan);
   letter-spacing: 0.5px;
   transition: var(--transition-smooth);
+  text-decoration: none;
 }
 
 .dashboard-card:hover .go-link {

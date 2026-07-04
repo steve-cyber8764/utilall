@@ -52,7 +52,7 @@ echo.
 
 :: 커밋
 echo [커밋]
-%GIT% commit -m "feat: MPA 전환 + 국제 넓이 단위 추가 + select 가시성 수정"
+%GIT% commit -m "style: 링크 밑줄 제거 (dashboard-card, nav-item, go-link)"
 echo.
 
 :: 강제 푸시 (HEAD를 master로)
