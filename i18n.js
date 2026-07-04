@@ -1,0 +1,447 @@
+/* =========================================================================
+ * UtilAll i18n — Korean / English
+ * - 언어 자동 감지: 저장된 선택 > (시간대 Asia/Seoul 또는 브라우저 언어 ko) ? ko : en
+ * - 수동 선택은 localStorage('langPreference')에 저장되어 유지됩니다.
+ * ========================================================================= */
+(function () {
+  const translations = {
+    ko: {
+      'meta.title': 'UtilAll | 다기능 종합 유틸리티 키트 - 계산기, 진법, 넓이, 길이 변환',
+
+      'nav.home': '대시보드',
+      'nav.calc': '전자계산기',
+      'nav.base': '진법계산기',
+      'nav.area': '넓이 변환기',
+      'nav.length': '길이 변환기',
+      'nav.distance': '거리 변환기',
+      'nav.weight': '무게 변환기',
+      'nav.pdf': 'PDF 워터마크',
+      'nav.space': '우주 거리',
+      'nav.timer': '타이머',
+
+      'theme.dark': '다크 모드',
+      'theme.light': '라이트 모드',
+
+      'common.start': '시작하기 →',
+      'common.copy': '복사',
+      'common.copied': '복사 완료!',
+      'visitors': '방문자',
+
+      'hero.title1': '일상의 모든 계산을',
+      'hero.title2': '더 스마트하고 미려하게',
+      'hero.desc': '복잡한 연산부터 진법 변환, 실생활 넓이 및 길이 변환까지 완벽히 제공하는 UtilAll과 함께 생산성을 한 단계 높여보세요.',
+
+      'card.calc.title': '전자계산기',
+      'card.calc.desc': '실시간 연산 이력 관리 기능 및 키보드 입력이 완벽 지원되는 스마트 계산기입니다.',
+      'card.base.title': '진법계산기',
+      'card.base.desc': '2진수, 8진수, 10진수, 16진수 간의 값을 실시간으로 변환하고 입력을 제한합니다.',
+      'card.area.title': '넓이 변환기',
+      'card.area.desc': '제곱미터(㎡)와 평(坪) 단위를 빠르게 실시간 변환하고, 부동산 필수 평형을 즉시 적용합니다.',
+      'card.length.title': '길이 변환기',
+      'card.length.desc': 'mm, cm, m, km, in, ft, yd, mile 등의 다양한 단위를 실시간 그리드 형태로 일괄 변환합니다.',
+      'card.distance.title': '거리 변환기',
+      'card.distance.desc': '미터법과 야드파운드법 거리 단위(m, km, mile 등)를 실시간으로 일괄 변환합니다.',
+      'card.weight.title': '무게 변환기',
+      'card.weight.desc': 'mg, g, kg, t, oz, lb, st 등 무게 단위를 실시간 그리드 형태로 일괄 변환합니다.',
+      'card.pdf.title': 'PDF 워터마크',
+      'card.pdf.desc': 'PDF에 텍스트 워터마크를 찍어 다운로드합니다. 모든 처리는 브라우저 안에서 안전하게 이루어집니다.',
+      'card.space.title': '우주 거리 탐색기',
+      'card.space.desc': '태양계 행성, 나라 간 수도 거리, 은하, 우리은하 속 별까지 우주의 모든 거리를 인터랙티브하게 탐색합니다.',
+      'card.timer.title': '타이머',
+      'card.timer.desc': '집중·운동·요리 등에 쓰는 SyncaTimer 타이머/스톱워치를 바로 사용하세요.',
+
+      'home.tab.about': '소개',
+      'home.tab.guide': '이용 가이드',
+      'home.tab.faq': 'FAQ',
+      'home.about.title': 'UtilAll — 하나로 끝내는 무료 온라인 유틸리티 모음',
+      'home.about.p1': 'UtilAll은 일상과 업무, 개발에 자주 쓰이는 도구들을 한 페이지에 모은 무료 웹 서비스입니다. 전자계산기, 진법 변환, 넓이·길이·거리·무게 단위 변환, PDF 워터마크, 우주 거리 탐색기, 공유 타이머까지 설치 없이 브라우저에서 바로 사용할 수 있습니다.',
+      'home.about.p2': '모든 계산과 변환은 실시간으로 이루어지며, 계산기 기록·단위 변환·PDF 워터마크 같은 기능은 여러분의 브라우저 안에서 처리되어 파일이 외부 서버로 전송되지 않습니다. 광고 수익은 서비스를 무료로 유지하는 데 사용됩니다.',
+      'home.guide.title': '도구별 이용 가이드',
+      'home.guide.calc.t': '전자계산기',
+      'home.guide.calc.d': '괄호와 거듭제곱(^), 백분율(%)을 지원하며 키보드로도 입력할 수 있습니다. 오른쪽 이력 패널에서 이전 계산을 다시 확인할 수 있습니다.',
+      'home.guide.base.t': '진법 변환',
+      'home.guide.base.d': '2·8·10·16진수 값을 한 곳에 입력하면 나머지 진법으로 즉시 변환됩니다. 프로그래밍·네트워크 계산에 유용합니다.',
+      'home.guide.area.t': '넓이 변환',
+      'home.guide.area.d': '제곱미터(㎡)와 평(坪)을 상호 변환합니다. 아파트 전용/공급면적 프리셋으로 부동산 평형을 빠르게 확인하세요.',
+      'home.guide.length.t': '길이·거리 변환',
+      'home.guide.length.d': 'mm부터 마일까지 미터법과 야드파운드법 단위를 한 번에 변환합니다. 값과 단위만 고르면 모든 단위가 실시간으로 갱신됩니다.',
+      'home.guide.weight.t': '무게 변환',
+      'home.guide.weight.d': 'mg·g·kg·t와 oz·lb·st를 서로 변환합니다. 요리, 택배, 운동 등 실생활 무게 계산에 편리합니다.',
+      'home.guide.pdf.t': 'PDF 워터마크',
+      'home.guide.pdf.d': 'PDF에 텍스트 워터마크를 넣어 다운로드합니다. 글자 크기·투명도·기울기·색상·배치를 조절할 수 있고 한글도 지원합니다.',
+      'home.faq.title': '자주 묻는 질문 (FAQ)',
+      'home.faq.q1': 'UtilAll은 무료인가요?',
+      'home.faq.a1': '네, 모든 도구를 회원가입 없이 무료로 사용할 수 있습니다. 서비스 운영을 위해 페이지에 광고가 표시됩니다.',
+      'home.faq.q2': '입력한 데이터는 안전한가요?',
+      'home.faq.a2': '계산·단위 변환·PDF 워터마크는 모두 여러분의 브라우저에서 처리되며, 업로드한 PDF나 입력값이 서버로 전송되지 않습니다.',
+      'home.faq.q3': '설치가 필요한가요?',
+      'home.faq.a3': '아니요. 최신 웹 브라우저만 있으면 PC와 모바일 어디서나 바로 사용할 수 있습니다.',
+      'home.faq.q4': '한글과 영어를 모두 지원하나요?',
+      'home.faq.a4': '네. 왼쪽 하단의 언어 버튼으로 한국어/English를 전환할 수 있으며, 접속 위치에 따라 기본 언어가 자동 선택됩니다.',
+      'home.faq.q5': 'PDF 워터마크에 한글을 넣을 수 있나요?',
+      'home.faq.a5': '네. 한글·영문·이모지 모두 워터마크로 넣을 수 있으며 여러 페이지에 한 번에 적용됩니다.',
+      'home.faq.q6': '변환 결과가 정확한가요?',
+      'home.faq.a6': '국제 표준 환산 계수를 사용합니다. 다만 부동산 평형 등 일부 값은 관례상의 근사치이니 참고용으로 활용해 주세요.',
+      'home.privacy': '개인정보처리방침',
+
+      'calc.title': '전자계산기',
+      'calc.desc': '키보드 입력 및 실시간 연산 기록을 지원하는 고성능 글래스모피즘 계산기입니다.',
+      'calc.history': '연산 이력',
+      'calc.clearAll': '전체 삭제',
+      'calc.empty': '계산 기록이 없습니다',
+
+      'base.title': '진법계산기',
+      'base.desc': '2진수, 8진수, 10진수, 16진수 간의 실시간 쌍방향 변환을 지원하며, 입력 규격을 제한합니다.',
+      'base.bin.title': '2진수 (Binary)',
+      'base.oct.title': '8진수 (Octal)',
+      'base.dec.title': '10진수 (Decimal)',
+      'base.hex.title': '16진수 (Hexadecimal)',
+      'base.bin.ph': '0과 1만 입력 가능',
+      'base.oct.ph': '0 ~ 7 입력 가능',
+      'base.dec.ph': '0 ~ 9 입력 가능',
+      'base.hex.ph': '0 ~ 9, A ~ F 입력 가능',
+      'base.bin.err': '2진수 형식에 맞지 않습니다 (0, 1만 허용).',
+      'base.oct.err': '8진수 형식에 맞지 않습니다 (0 ~ 7만 허용).',
+      'base.dec.err': '10진수 형식에 맞지 않습니다 (0 ~ 9만 허용).',
+      'base.hex.err': '16진수 형식에 맞지 않습니다 (0 ~ 9, A ~ F만 허용).',
+      'base.guide.title': '💡 진법 변환 가이드',
+      'base.guide.1': '각 입력란에 값을 입력하면 다른 진법의 값으로 <b>실시간 변환</b>됩니다.',
+      'base.guide.2': '진법별 규격에 맞지 않는 키는 자동으로 차단되거나 경고 메시지가 표시됩니다.',
+      'base.guide.3': '영문 대소문자 모두 입력 가능하며, 결과는 깔끔하게 <b>대문자</b>로 통일되어 표시됩니다.',
+
+      'area.title': '넓이 변환기',
+      'area.desc': '제곱미터(㎡)와 평(坪) 단위를 상호 실시간으로 변환하고 부동산 주요 면적 숏컷을 제공합니다.',
+      'area.m2.label': '제곱미터 (㎡)',
+      'area.pyeong.label': '평 (坪)',
+      'area.preset.m2': '제곱미터(㎡) 프리셋',
+      'area.preset.pyeong': '평(坪) 프리셋',
+      'area.chip.m2.59': '59㎡ (전용 약 18평)',
+      'area.chip.m2.84': '84㎡ (전용 약 25평)',
+      'area.chip.m2.114': '114㎡ (전용 약 34평)',
+      'area.chip.py.1': '1평',
+      'area.chip.py.10': '10평',
+      'area.chip.py.20': '20평',
+      'area.chip.py.30': '30평',
+      'area.chip.py.40': '40평',
+      'area.chip.py.50': '50평',
+      'area.info.title': '🏢 아파트 공급/전용면적 상식',
+      'area.info.1': '<b>전용면적</b>: 거주자가 실제 독립해서 쓰는 발코니 제외 내부 공간(예: 84㎡).',
+      'area.info.2': "<b>공급면적</b>: 전용면적 + 엘리베이터, 계단 등 주거공용면적을 합한 공간(흔히 말하는 '34평형').",
+      'area.info.3': '<b>공식</b>: 1평 ≈ <b>3.305785㎡</b> / 1㎡ ≈ <b>0.3025평</b>',
+
+      'length.title': '길이 변환기',
+      'length.desc': '임의의 단위를 골라 값을 입력하면 다양한 미터법 및 야드파운드법 단위로 즉시 일괄 변환됩니다.',
+      'length.valLabel': '값 입력',
+      'length.unitLabel': '입력 단위',
+      'unit.mm.long': '밀리미터 (mm)',
+      'unit.cm.long': '센티미터 (cm)',
+      'unit.m.long': '미터 (m)',
+      'unit.km.long': '킬로미터 (km)',
+      'unit.in.long': '인치 (in)',
+      'unit.ft.long': '피트 (ft)',
+      'unit.yd.long': '야드 (yd)',
+      'unit.mile.long': '마일 (mile)',
+      'unit.mg.long': '밀리그램 (mg)',
+      'unit.g.long': '그램 (g)',
+      'unit.kg.long': '킬로그램 (kg)',
+      'unit.t.long': '톤 (t)',
+      'unit.oz.long': '온스 (oz)',
+      'unit.lb.long': '파운드 (lb)',
+      'unit.st.long': '스톤 (st)',
+
+      'distance.title': '거리 변환기',
+      'distance.desc': '거리 값을 입력하면 미터법 및 야드파운드법 단위로 즉시 일괄 변환됩니다.',
+      'weight.title': '무게 변환기',
+      'weight.desc': '무게(질량) 값을 입력하면 미터법 및 야드파운드법 단위로 즉시 일괄 변환됩니다.',
+
+      'pdf.title': 'PDF 워터마크',
+      'pdf.desc': 'PDF에 텍스트 워터마크를 찍어 다운로드하세요. 모든 처리는 브라우저 안에서 이루어져 파일이 외부로 전송되지 않습니다.',
+      'pdf.dropMain': '여기에 PDF를 끌어다 놓거나 ',
+      'pdf.dropClick': '클릭하여 선택',
+      'pdf.wmTextLabel': '워터마크 텍스트',
+      'pdf.ph': '예: 대외비, 복사금지, CONFIDENTIAL',
+      'pdf.size': '글자 크기',
+      'pdf.opacity': '투명도',
+      'pdf.angle': '기울기',
+      'pdf.color': '색상',
+      'pdf.layout': '배치 방식',
+      'pdf.tiled': '반복 (타일)',
+      'pdf.center': '가운데 1개',
+      'pdf.apply': '워터마크 적용 & 다운로드',
+      'pdf.info.title': '🔒 안전하게 처리됩니다',
+      'pdf.info.1': '업로드한 PDF는 서버로 전송되지 않고 <b>브라우저 내부에서만</b> 처리됩니다.',
+      'pdf.info.2': '<b>한글 워터마크</b>도 완벽하게 지원합니다.',
+      'pdf.info.3': '여러 페이지 PDF의 <b>모든 페이지</b>에 일괄 적용됩니다.',
+      'pdf.info.4': '글자 크기, 투명도, 기울기, 색상, 배치 방식을 자유롭게 조절하세요.',
+      'pdf.defaultText': '대외비',
+      'pdf.status.processing': '처리 중입니다…',
+      'pdf.status.done': '완료! 워터마크가 적용된 PDF를 다운로드했습니다. ({n}페이지)',
+      'pdf.status.needText': '워터마크 텍스트를 입력하세요.',
+      'pdf.status.onlyPdf': 'PDF 파일만 업로드할 수 있습니다.',
+      'pdf.status.noLib': 'PDF 라이브러리를 불러오지 못했습니다. 네트워크를 확인 후 새로고침 해주세요.',
+      'pdf.status.fail': '처리에 실패했습니다. 손상되었거나 암호로 보호된 PDF일 수 있습니다.',
+
+      'space.title': '우주 거리 탐색기',
+      'space.desc': '태양계 행성부터 나라 간 거리, 은하, 우리은하 속 별까지 — 우주의 모든 거리를 인터랙티브 지도로 탐색하세요.',
+
+      'timer.title': '타이머',
+      'timer.desc': '집중·운동·요리 등에 활용하는 SyncaTimer 타이머/스톱워치입니다.'
+    },
+
+    en: {
+      'meta.title': 'UtilAll | All-in-One Utility Kit — Calculator, Base, Area, Length',
+
+      'nav.home': 'Dashboard',
+      'nav.calc': 'Calculator',
+      'nav.base': 'Base Converter',
+      'nav.area': 'Area Converter',
+      'nav.length': 'Length Converter',
+      'nav.distance': 'Distance Converter',
+      'nav.weight': 'Weight Converter',
+      'nav.pdf': 'PDF Watermark',
+      'nav.space': 'Space Distance',
+      'nav.timer': 'Timer',
+
+      'theme.dark': 'Dark Mode',
+      'theme.light': 'Light Mode',
+
+      'common.start': 'Get started →',
+      'common.copy': 'Copy',
+      'common.copied': 'Copied!',
+      'visitors': 'Visitors',
+
+      'hero.title1': 'Make every calculation',
+      'hero.title2': 'smarter and more elegant',
+      'hero.desc': 'From complex math to base conversion and everyday area & length conversions — boost your productivity with UtilAll.',
+
+      'card.calc.title': 'Calculator',
+      'card.calc.desc': 'A smart calculator with real-time history and full keyboard support.',
+      'card.base.title': 'Base Converter',
+      'card.base.desc': 'Convert between binary, octal, decimal and hex in real time with input validation.',
+      'card.area.title': 'Area Converter',
+      'card.area.desc': 'Instantly convert between square meters (㎡) and pyeong (坪), with handy real-estate presets.',
+      'card.length.title': 'Length Converter',
+      'card.length.desc': 'Batch-convert mm, cm, m, km, in, ft, yd, mile and more in a live grid.',
+      'card.distance.title': 'Distance Converter',
+      'card.distance.desc': 'Batch-convert metric and imperial distance units (m, km, mile and more) in real time.',
+      'card.weight.title': 'Weight Converter',
+      'card.weight.desc': 'Batch-convert weight units — mg, g, kg, t, oz, lb, st — in a live grid.',
+      'card.pdf.title': 'PDF Watermark',
+      'card.pdf.desc': 'Stamp a text watermark onto your PDF and download it. Everything is processed safely in your browser.',
+      'card.space.title': 'Space Distance Explorer',
+      'card.space.desc': 'Explore every distance in the universe — planets, capital-to-capital, galaxies, and stars in the Milky Way.',
+      'card.timer.title': 'Timer',
+      'card.timer.desc': 'Use the SyncaTimer timer/stopwatch for focus, workouts, cooking and more — right here.',
+
+      'home.tab.about': 'About',
+      'home.tab.guide': 'User guide',
+      'home.tab.faq': 'FAQ',
+      'home.about.title': 'UtilAll — Your free all-in-one online utility kit',
+      'home.about.p1': 'UtilAll gathers the tools you reach for every day — for life, work and development — on a single page. A calculator, base conversion, area/length/distance/weight unit converters, a PDF watermark tool, a space-distance explorer and a shared timer are all ready to use right in your browser, with nothing to install.',
+      'home.about.p2': 'Every calculation and conversion happens in real time. Features like the calculator history, unit conversion and PDF watermarking run entirely inside your browser, so your files and inputs are never sent to a server. Ad revenue keeps the service free.',
+      'home.guide.title': 'How to use each tool',
+      'home.guide.calc.t': 'Calculator',
+      'home.guide.calc.d': 'Supports parentheses, powers (^) and percentages (%), and works with your keyboard. Review earlier results in the history panel on the right.',
+      'home.guide.base.t': 'Base converter',
+      'home.guide.base.d': 'Type a value in one field and it is instantly converted to binary, octal, decimal and hex. Handy for programming and networking.',
+      'home.guide.area.t': 'Area converter',
+      'home.guide.area.d': 'Convert between square meters (㎡) and pyeong (坪). Use the apartment area presets to check real-estate sizes quickly.',
+      'home.guide.length.t': 'Length & distance',
+      'home.guide.length.d': 'Convert from mm to miles across metric and imperial units at once. Pick a value and unit, and every unit updates in real time.',
+      'home.guide.weight.t': 'Weight converter',
+      'home.guide.weight.d': 'Convert between mg·g·kg·t and oz·lb·st — great for cooking, shipping and workouts.',
+      'home.guide.pdf.t': 'PDF watermark',
+      'home.guide.pdf.d': 'Stamp a text watermark onto a PDF and download it. Adjust size, opacity, angle, color and layout — Korean text supported too.',
+      'home.faq.title': 'Frequently asked questions (FAQ)',
+      'home.faq.q1': 'Is UtilAll free?',
+      'home.faq.a1': 'Yes — every tool is free with no sign-up. Ads are shown on the page to support the service.',
+      'home.faq.q2': 'Is my data safe?',
+      'home.faq.a2': 'Calculations, unit conversions and PDF watermarking all run in your browser; uploaded PDFs and your inputs are never sent to a server.',
+      'home.faq.q3': 'Do I need to install anything?',
+      'home.faq.a3': 'No. All you need is a modern web browser — it works on desktop and mobile.',
+      'home.faq.q4': 'Do you support both Korean and English?',
+      'home.faq.a4': 'Yes. Use the language buttons at the bottom-left to switch between Korean and English; the default is chosen automatically based on your location.',
+      'home.faq.q5': 'Can I use Korean text in the PDF watermark?',
+      'home.faq.a5': 'Yes. Korean, English and emoji all work as watermarks, applied to every page at once.',
+      'home.faq.q6': 'Are the conversion results accurate?',
+      'home.faq.a6': 'We use international standard conversion factors. Note that some values (such as apartment "pyeong" sizes) are conventional approximations, so please use them as a reference.',
+      'home.privacy': 'Privacy Policy',
+
+      'calc.title': 'Calculator',
+      'calc.desc': 'A high-performance glassmorphism calculator with keyboard input and live calculation history.',
+      'calc.history': 'History',
+      'calc.clearAll': 'Clear all',
+      'calc.empty': 'No calculation history',
+
+      'base.title': 'Base Converter',
+      'base.desc': 'Real-time two-way conversion between binary, octal, decimal and hexadecimal, with input validation.',
+      'base.bin.title': 'Binary',
+      'base.oct.title': 'Octal',
+      'base.dec.title': 'Decimal',
+      'base.hex.title': 'Hexadecimal',
+      'base.bin.ph': 'Only 0 and 1 allowed',
+      'base.oct.ph': '0 – 7 allowed',
+      'base.dec.ph': '0 – 9 allowed',
+      'base.hex.ph': '0 – 9, A – F allowed',
+      'base.bin.err': 'Invalid binary format (only 0, 1 allowed).',
+      'base.oct.err': 'Invalid octal format (only 0 – 7 allowed).',
+      'base.dec.err': 'Invalid decimal format (only 0 – 9 allowed).',
+      'base.hex.err': 'Invalid hexadecimal format (only 0 – 9, A – F allowed).',
+      'base.guide.title': '💡 Base Conversion Guide',
+      'base.guide.1': 'Type a value in any field and it is <b>converted in real time</b> to the other bases.',
+      'base.guide.2': 'Keys that do not fit a base are automatically blocked or flagged with a warning.',
+      'base.guide.3': 'Both upper and lower case are accepted; results are normalized to clean <b>uppercase</b>.',
+
+      'area.title': 'Area Converter',
+      'area.desc': 'Convert between square meters (㎡) and pyeong (坪) in real time, with common real-estate shortcuts.',
+      'area.m2.label': 'Square meters (㎡)',
+      'area.pyeong.label': 'Pyeong (坪)',
+      'area.preset.m2': 'Square meter (㎡) presets',
+      'area.preset.pyeong': 'Pyeong (坪) presets',
+      'area.chip.m2.59': '59㎡ (~18 py)',
+      'area.chip.m2.84': '84㎡ (~25 py)',
+      'area.chip.m2.114': '114㎡ (~34 py)',
+      'area.chip.py.1': '1 py',
+      'area.chip.py.10': '10 py',
+      'area.chip.py.20': '20 py',
+      'area.chip.py.30': '30 py',
+      'area.chip.py.40': '40 py',
+      'area.chip.py.50': '50 py',
+      'area.info.title': '🏢 Apartment Area Guide',
+      'area.info.1': '<b>Exclusive area</b>: the private interior space a resident actually uses, excluding balcony (e.g. 84㎡).',
+      'area.info.2': '<b>Supply area</b>: exclusive area plus shared residential space such as elevators and stairs (the commonly cited "34-pyeong type").',
+      'area.info.3': '<b>Formula</b>: 1 py ≈ <b>3.305785㎡</b> / 1㎡ ≈ <b>0.3025 py</b>',
+
+      'length.title': 'Length Converter',
+      'length.desc': 'Pick a unit and enter a value to instantly batch-convert into metric and imperial units.',
+      'length.valLabel': 'Value',
+      'length.unitLabel': 'Input unit',
+      'unit.mm.long': 'Millimeter (mm)',
+      'unit.cm.long': 'Centimeter (cm)',
+      'unit.m.long': 'Meter (m)',
+      'unit.km.long': 'Kilometer (km)',
+      'unit.in.long': 'Inch (in)',
+      'unit.ft.long': 'Foot (ft)',
+      'unit.yd.long': 'Yard (yd)',
+      'unit.mile.long': 'Mile (mile)',
+      'unit.mg.long': 'Milligram (mg)',
+      'unit.g.long': 'Gram (g)',
+      'unit.kg.long': 'Kilogram (kg)',
+      'unit.t.long': 'Tonne (t)',
+      'unit.oz.long': 'Ounce (oz)',
+      'unit.lb.long': 'Pound (lb)',
+      'unit.st.long': 'Stone (st)',
+
+      'distance.title': 'Distance Converter',
+      'distance.desc': 'Enter a distance and instantly batch-convert it into metric and imperial units.',
+      'weight.title': 'Weight Converter',
+      'weight.desc': 'Enter a weight (mass) and instantly batch-convert it into metric and imperial units.',
+
+      'pdf.title': 'PDF Watermark',
+      'pdf.desc': 'Stamp a text watermark onto your PDF and download it. Everything is processed in your browser — no file ever leaves your device.',
+      'pdf.dropMain': 'Drag & drop a PDF here, or ',
+      'pdf.dropClick': 'click to choose',
+      'pdf.wmTextLabel': 'Watermark text',
+      'pdf.ph': 'e.g. CONFIDENTIAL, DRAFT, DO NOT COPY',
+      'pdf.size': 'Font size',
+      'pdf.opacity': 'Opacity',
+      'pdf.angle': 'Angle',
+      'pdf.color': 'Color',
+      'pdf.layout': 'Layout',
+      'pdf.tiled': 'Tiled',
+      'pdf.center': 'Center (single)',
+      'pdf.apply': 'Apply & Download',
+      'pdf.info.title': '🔒 Processed safely',
+      'pdf.info.1': 'Your PDF is <b>never sent to a server</b> — it is processed entirely in your browser.',
+      'pdf.info.2': '<b>Korean watermarks</b> are fully supported too.',
+      'pdf.info.3': 'Applied to <b>every page</b> of multi-page PDFs.',
+      'pdf.info.4': 'Freely adjust font size, opacity, angle, color and layout.',
+      'pdf.defaultText': 'CONFIDENTIAL',
+      'pdf.status.processing': 'Processing…',
+      'pdf.status.done': 'Done! Your watermarked PDF has been downloaded. ({n} pages)',
+      'pdf.status.needText': 'Please enter watermark text.',
+      'pdf.status.onlyPdf': 'Only PDF files can be uploaded.',
+      'pdf.status.noLib': 'Failed to load the PDF library. Check your connection and refresh.',
+      'pdf.status.fail': 'Processing failed. The PDF may be corrupted or password-protected.',
+
+      'space.title': 'Space Distance Explorer',
+      'space.desc': 'From planets to capital-to-capital distances, galaxies and stars in the Milky Way — explore every distance in the universe on an interactive map.',
+
+      'timer.title': 'Timer',
+      'timer.desc': 'The SyncaTimer timer/stopwatch for focus, workouts, cooking and more.'
+    }
+  };
+
+  // Known PDF default watermark texts across languages (used to detect "untouched" field).
+  const PDF_DEFAULTS = ['대외비', 'CONFIDENTIAL'];
+
+  function detectLang() {
+    const saved = localStorage.getItem('langPreference');
+    if (saved === 'ko' || saved === 'en') return saved;
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      if (tz === 'Asia/Seoul') return 'ko';
+    } catch (e) { /* ignore */ }
+    const navLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+    if (navLang.startsWith('ko')) return 'ko';
+    return 'en';
+  }
+
+  function t(key) {
+    const lang = window.I18N.lang;
+    return (translations[lang] && translations[lang][key]) || translations.ko[key] || key;
+  }
+
+  function applyI18n() {
+    const lang = window.I18N.lang;
+
+    document.documentElement.setAttribute('lang', lang);
+    document.title = t('meta.title');
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      el.textContent = t(el.getAttribute('data-i18n'));
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      el.innerHTML = t(el.getAttribute('data-i18n-html'));
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      el.setAttribute('placeholder', t(el.getAttribute('data-i18n-ph')));
+    });
+
+    // Active state on the language switch
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+
+    // PDF default watermark text: swap only if the user hasn't customized it
+    const pdfText = document.getElementById('pdf-wm-text');
+    if (pdfText && (pdfText.value === '' || PDF_DEFAULTS.includes(pdfText.value))) {
+      pdfText.value = t('pdf.defaultText');
+    }
+
+    // Let app.js re-render its dynamic strings (theme label, empty history, etc.)
+    window.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
+  }
+
+  function setLang(lang) {
+    if (lang !== 'ko' && lang !== 'en') return;
+    window.I18N.lang = lang;
+    localStorage.setItem('langPreference', lang);
+    applyI18n();
+  }
+
+  window.I18N = { lang: detectLang(), t, setLang, applyI18n };
+
+  function init() {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang')));
+    });
+    applyI18n();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>우주 거리 탐색기 | Universe Distance Explorer - 세상의 모든 거리 측정</title>
+  <meta name="description" content="지구상 국가 간 수도 거리부터 태양계 행성, 우리은하 내부 주요 별(3D 지도), 먼 외계 은하까지! 우주의 모든 거리를 측정하고 다양한 천문 데이터를 인터랙티브하게 탐색해보세요." />
+  <meta name="keywords" content="우주 거리 탐색기, 우주 거리, 태양계 행성 거리, 나라 간 거리, 은하 간 거리, 은하 내 별, 별자리 지도, 천문학 데이터, 우주 탐색, 공전 주기, 3D 성도" />
+  <meta name="author" content="Antigravity Cosmic Dev Team" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://universe-distance-explorer.vercel.app" />
+  <meta property="og:title" content="우주 거리 탐색기 | Universe Distance Explorer" />
+  <meta property="og:description" content="지구상의 모든 나라 간 거리부터 태양계, 우리은하 항성, 먼 외계 은하까지의 거리를 인터랙티브 3D 지도로 탐색해보세요." />
+  <meta property="og:image" content="og-preview.jpg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://universe-distance-explorer.vercel.app" />
+  <meta property="twitter:title" content="우주 거리 탐색기 | Universe Distance Explorer" />
+  <meta property="twitter:description" content="지구상의 모든 나라 간 거리부터 태양계, 우리은하 항성, 먼 외계 은하까지의 거리를 인터랙티브 3D 지도로 탐색해보세요." />
+  <meta property="twitter:image" content="og-preview.jpg" />
+
+  <!-- Webmaster Tools Verification (Example placeholders) -->
+  <!-- <meta name="google-site-verification" content="구글서치콘솔_검증코드_입력" /> -->
+  <!-- <meta name="naver-site-verification" content="네이버서치클립_검증코드_입력" /> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Starfield Background -->
+  <div id="starfield" class="starfield"></div>
+  <div class="nebula-bg"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🌌</span>
+        <span class="logo-text">Universe<span class="logo-accent">Distance</span></span>
+      </div>
+      <nav class="nav">
+        <button class="nav-btn active" data-section="solar" id="nav-solar">☀️ 태양계</button>
+        <button class="nav-btn" data-section="countries" id="nav-countries">🌍 나라간 거리</button>
+        <button class="nav-btn" data-section="galaxies" id="nav-galaxies">🌌 은하</button>
+        <button class="nav-btn" data-section="stars" id="nav-stars">⭐ 은하 내 별</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="gradient-text">우주의 모든 거리</span>를<br/>탐색하세요
+      </h1>
+      <p class="hero-subtitle">태양계 행성부터 먼 은하까지, 세상 모든 거리를 한눈에</p>
+    </div>
+    <div class="hero-orbit-demo" id="hero-orbit"></div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- ============ SOLAR SYSTEM SECTION ============ -->
+    <section class="section active" id="section-solar">
+      <div class="section-header">
+        <h2 class="section-title">☀️ 태양계 탐색</h2>
+        <p class="section-desc">두 천체를 선택하여 거리와 상세 정보를 확인하세요</p>
+      </div>
+
+      <div class="solar-visual-wrapper">
+        <div class="solar-system-visual" id="solar-visual"></div>
+        <div class="solar-legend" id="solar-legend"></div>
+      </div>
+
+      <div class="picker-row">
+        <div class="picker-card" id="planet-picker-a">
+          <div class="picker-label">출발지</div>
+          <div class="planet-grid" id="planet-grid-a"></div>
+        </div>
+        <div class="distance-display-center">
+          <div class="distance-arrow">↔</div>
+          <div class="distance-result" id="solar-distance-result">
+            <span class="dist-label">거리</span>
+            <span class="dist-value" id="solar-dist-val">—</span>
+            <span class="dist-unit" id="solar-dist-unit">선택하세요</span>
+            <span class="dist-light" id="solar-dist-light"></span>
+          </div>
+        </div>
+        <div class="picker-card" id="planet-picker-b">
+          <div class="picker-label">목적지</div>
+          <div class="planet-grid" id="planet-grid-b"></div>
+        </div>
+      </div>
+
+      <!-- Planet Details Cards -->
+      <div class="planet-details-row" id="planet-details-row">
+        <div class="planet-detail-card" id="detail-card-a"></div>
+        <div class="planet-detail-card" id="detail-card-b"></div>
+      </div>
+    </section>
+
+    <!-- ============ COUNTRIES SECTION ============ -->
+    <section class="section" id="section-countries">
+      <div class="section-header">
+        <h2 class="section-title">🌍 나라 간 거리</h2>
+        <p class="section-desc">두 나라의 수도 간 직선 거리를 확인하세요</p>
+      </div>
+
+      <div class="country-search-row">
+        <div class="country-picker">
+          <div class="picker-label">출발 국가</div>
+          <div class="search-wrap">
+            <input type="text" id="country-search-a" class="country-input" placeholder="🔍 국가 검색..." autocomplete="off" />
+            <div class="country-dropdown" id="country-dropdown-a"></div>
+          </div>
+          <div class="selected-country" id="selected-country-a">
+            <div class="country-flag-large" id="flag-a">🌐</div>
+            <div class="country-info-box" id="info-a">국가를 선택하세요</div>
+          </div>
+        </div>
+
+        <div class="distance-display-center vertical">
+          <div class="country-distance-display">
+            <div class="dist-icon">✈️</div>
+            <div class="dist-value-lg" id="country-dist-val">—</div>
+            <div class="dist-unit-sm">km</div>
+            <div class="dist-sub" id="country-dist-sub">두 나라를 선택하세요</div>
+          </div>
+          <div class="travel-times" id="travel-times"></div>
+        </div>
+
+        <div class="country-picker">
+          <div class="picker-label">도착 국가</div>
+          <div class="search-wrap">
+            <input type="text" id="country-search-b" class="country-input" placeholder="🔍 국가 검색..." autocomplete="off" />
+            <div class="country-dropdown" id="country-dropdown-b"></div>
+          </div>
+          <div class="selected-country" id="selected-country-b">
+            <div class="country-flag-large" id="flag-b">🌐</div>
+            <div class="country-info-box" id="info-b">국가를 선택하세요</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="world-map-container" id="world-map-container">
+        <canvas id="world-map-canvas" width="900" height="450"></canvas>
+      </div>
+    </section>
+
+    <!-- ============ GALAXIES SECTION ============ -->
+    <section class="section" id="section-galaxies">
+      <div class="section-header">
+        <h2 class="section-title">🌌 은하 간 거리</h2>
+        <p class="section-desc">우리 은하와 주변 은하들 사이의 거리를 탐색하세요</p>
+      </div>
+
+      <div class="galaxy-visual-wrapper">
+        <div class="galaxy-map" id="galaxy-map"></div>
+      </div>
+
+      <div class="galaxy-grid" id="galaxy-grid"></div>
+
+      <div class="galaxy-detail-panel" id="galaxy-detail-panel">
+        <div class="galaxy-detail-placeholder">은하를 선택하면 상세 정보가 표시됩니다</div>
+      </div>
+    </section>
+
+    <!-- ============ STARS SECTION ============ -->
+    <section class="section" id="section-stars">
+      <div class="section-header">
+        <h2 class="section-title">⭐ 은하 내 별 탐색</h2>
+        <p class="section-desc">우리 은하 속 주요 별들 사이의 거리와 특성을 탐색하세요</p>
+      </div>
+
+      <!-- Star Map -->
+      <div class="starmap-wrapper">
+        <div class="starmap-controls">
+          <div class="view-toggle">
+            <button class="view-btn active" id="view-top">⬆ 위에서 본 뷰 (X-Y)</button>
+            <button class="view-btn" id="view-side">➡ 옆에서 본 뷰 (X-Z)</button>
+          </div>
+          <div class="starmap-legend-row" id="starmap-legend-row"></div>
+        </div>
+        <div class="starmap-canvas-wrap">
+          <canvas id="starmap-canvas" width="1000" height="420"></canvas>
+        </div>
+        <div class="starmap-scale" id="starmap-scale"></div>
+      </div>
+
+      <!-- Star Picker -->
+      <div class="picker-row" style="margin-top:2rem">
+        <div class="picker-card">
+          <div class="picker-label">🔍 별 A 선택</div>
+          <input type="text" id="star-search-a" class="country-input" placeholder="별 이름 검색..." autocomplete="off" />
+          <div class="country-dropdown" id="star-dropdown-a"></div>
+          <div class="star-selected-display" id="star-selected-a">
+            <div class="star-selected-placeholder">별을 선택하세요</div>
+          </div>
+        </div>
+
+        <div class="distance-display-center">
+          <div class="distance-arrow">↔</div>
+          <div class="distance-result" id="star-distance-result">
+            <span class="dist-label">거리</span>
+            <span class="dist-value" id="star-dist-val">—</span>
+            <span class="dist-unit" id="star-dist-unit">두 별을 선택하세요</span>
+            <span class="dist-light" id="star-dist-light"></span>
+            <span class="dist-light" id="star-dist-km"></span>
+          </div>
+        </div>
+
+        <div class="picker-card">
+          <div class="picker-label">🔍 별 B 선택</div>
+          <input type="text" id="star-search-b" class="country-input" placeholder="별 이름 검색..." autocomplete="off" />
+          <div class="country-dropdown" id="star-dropdown-b"></div>
+          <div class="star-selected-display" id="star-selected-b">
+            <div class="star-selected-placeholder">별을 선택하세요</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Star Detail Cards -->
+      <div class="planet-details-row" id="star-details-row">
+        <div class="planet-detail-card" id="star-detail-a"></div>
+        <div class="planet-detail-card" id="star-detail-b"></div>
+      </div>
+
+      <!-- All Stars Grid -->
+      <div class="section-header" style="margin-top:2.5rem">
+        <h3 style="font-size:1.2rem;font-weight:700">📚 주요 별 목록</h3>
+        <p class="section-desc">클릭하면 A 또는 B로 선택됩니다</p>
+      </div>
+      <div class="stars-catalog" id="stars-catalog"></div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>🌌 Universe Distance Explorer — 모든 데이터는 천문학적 평균값 기준입니다</p>
+      <p class="footer-sub">태양계 데이터: NASA JPL | 국가 데이터: UN Statistics | 은하 데이터: ESA/Hubble | 별 데이터: HYG Database / Hipparcos Catalog</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="i18n-data.js"></script>
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
