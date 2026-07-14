@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     range: 100,
     pool: 'white',
     mode: 'hot',
+    fmin: null,   // 출현 횟수 필터 최소
+    fmax: null,   // 출현 횟수 필터 최대
     loaded: false,
   };
 
@@ -149,18 +151,36 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 1; i <= max; i++) { if (arr[i] > hi) hi = arr[i]; if (arr[i] < lo) lo = arr[i]; }
     if (!isFinite(lo)) lo = 0;
 
+    const filterOn = state.fmin !== null || state.fmax !== null;
+    const lo2 = state.fmin !== null ? state.fmin : -Infinity;
+    const hi2 = state.fmax !== null ? state.fmax : Infinity;
+    let matched = 0;
+
     let html = '';
     for (let i = 1; i <= max; i++) {
       const cnt = arr[i];
       const rate = n ? (cnt / n * 100) : 0;
       const t = hi > lo ? (cnt - lo) / (hi - lo) : 0; // 0~1
-      const cell = isWhite ? 'pb-cell' : 'pb-cell red';
+      let cell = isWhite ? 'pb-cell' : 'pb-cell red';
+      if (filterOn) {
+        if (cnt >= lo2 && cnt <= hi2) { cell += ' match'; matched++; }
+        else cell += ' dimmed';
+      }
       html += `<div class="${cell}" style="--t:${t.toFixed(3)}" title="${tr('pb.number')} ${i}: ${cnt}${tr('pb.times')} (${rate.toFixed(1)}%)">`
         + `<span class="pb-cell-n">${String(i).padStart(2,'0')}</span>`
         + `<span class="pb-cell-c">${cnt}</span>`
         + `<span class="pb-cell-r">${rate.toFixed(0)}%</span></div>`;
     }
     $('pb-grid').innerHTML = html;
+
+    const countEl = $('pb-filter-count');
+    if (countEl) countEl.textContent = filterOn ? tr('pb.matched').replace('{n}', matched) : '';
+  }
+
+  function refreshGrid() {
+    if (!state.loaded) return;
+    const draws = activeDraws();
+    renderGrid(counts(draws), draws.length);
   }
 
   /* ── 통계 요약 ──────────────────────────────────────── */
@@ -247,7 +267,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const b = e.target.closest('.pb-seg-btn'); if (!b) return;
     document.querySelectorAll('#pb-pool-seg .pb-seg-btn').forEach(x => x.classList.toggle('active', x === b));
     state.pool = b.getAttribute('data-pool');
-    if (state.loaded) renderGrid(counts(activeDraws()), activeDraws().length);
+    refreshGrid();
+  });
+
+  function readFilter() {
+    const parse = (v) => { const n = parseInt(v, 10); return isNaN(n) || n < 0 ? null : n; };
+    state.fmin = parse($('pb-filter-min').value);
+    state.fmax = parse($('pb-filter-max').value);
+    refreshGrid();
+  }
+  $('pb-filter-min').addEventListener('input', readFilter);
+  $('pb-filter-max').addEventListener('input', readFilter);
+  $('pb-filter-clear').addEventListener('click', () => {
+    $('pb-filter-min').value = '';
+    $('pb-filter-max').value = '';
+    state.fmin = state.fmax = null;
+    refreshGrid();
   });
 
   $('pb-mode-row').addEventListener('click', (e) => {

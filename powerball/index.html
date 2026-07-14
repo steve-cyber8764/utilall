@@ -171,6 +171,15 @@
             </div>
           </div>
           <p class="pb-freq-note" data-i18n="pb.freqNote">색이 진할수록 자주 나온 번호입니다. 출현율 = 해당 번호가 나온 회차 ÷ 분석 회차.</p>
+          <div class="pb-filter">
+            <span class="pb-filter-label" data-i18n="pb.filterLabel">출현 횟수 범위</span>
+            <input type="number" id="pb-filter-min" class="pb-filter-input" min="0" inputmode="numeric" placeholder="예:5">
+            <span class="pb-filter-tilde">~</span>
+            <input type="number" id="pb-filter-max" class="pb-filter-input" min="0" inputmode="numeric" placeholder="예:8">
+            <span class="pb-filter-unit" data-i18n="pb.filterUnit">회</span>
+            <button class="pb-filter-clear" id="pb-filter-clear" data-i18n="pb.filterClear">해제</button>
+            <span class="pb-filter-count" id="pb-filter-count"></span>
+          </div>
           <div class="pb-grid" id="pb-grid"></div>
           <div class="pb-legend">
             <span data-i18n="pb.less">적음</span>
