@@ -245,6 +245,11 @@ document.addEventListener('DOMContentLoaded', () => {
     return list;
   }
 
+  // 결과 칸을 안내 문구(빈 상태)로 초기화 — 설정 변경 시 사용
+  function resetGenOut() {
+    $('pb-gen-out').innerHTML = `<div class="pb-loading">${tr('pb.genHint')}</div>`;
+  }
+
   function generate() {
     if (!state.loaded) return;
     const c = counts(activeDraws());
@@ -295,13 +300,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const b = e.target.closest('.pb-mode-btn'); if (!b) return;
     document.querySelectorAll('#pb-mode-row .pb-mode-btn').forEach(x => x.classList.toggle('active', x === b));
     state.mode = b.getAttribute('data-mode');
+    resetGenOut();  // 설정만 바꾸면 번호는 지우고, '번호 생성'을 눌러야 나옴
   });
 
   $('pb-count-seg').addEventListener('click', (e) => {
     const b = e.target.closest('.pb-seg-btn'); if (!b) return;
     document.querySelectorAll('#pb-count-seg .pb-seg-btn').forEach(x => x.classList.toggle('active', x === b));
     state.genCount = parseInt(b.getAttribute('data-count'), 10) || 1;
-    if (state.loaded && $('pb-gen-out').querySelector('.pb-gen-set')) generate();
+    resetGenOut();  // 게임 수를 바꾸면 결과 칸은 빈 상태로 — '번호 생성'을 눌러야 생성
   });
 
   $('pb-gen-btn').addEventListener('click', generate);
