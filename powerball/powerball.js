@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     range: 100,
     pool: 'white',
     mode: 'hot',
+    genCount: 1,  // 생성할 게임 수 (1~5)
     fmin: null,   // 출현 횟수 필터 최소
     fmax: null,   // 출현 횟수 필터 최대
     loaded: false,
@@ -247,10 +248,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function generate() {
     if (!state.loaded) return;
     const c = counts(activeDraws());
-    const white = weightedPick(weightsFor(c.white, WHITE_MAX, state.mode), WHITE_PICK);
-    const pb = weightedPick(weightsFor(c.pb, PB_MAX, state.mode), 1)[0];
-    let html = white.map(n => ball(n)).join('');
-    html += '<span class="pb-plus">+</span>' + ball(pb, 'pb');
+    const multi = state.genCount > 1;
+    let html = '';
+    for (let g = 0; g < state.genCount; g++) {
+      const white = weightedPick(weightsFor(c.white, WHITE_MAX, state.mode), WHITE_PICK);
+      const pb = weightedPick(weightsFor(c.pb, PB_MAX, state.mode), 1)[0];
+      const balls = white.map(n => ball(n)).join('') + '<span class="pb-plus">+</span>' + ball(pb, 'pb');
+      const label = multi ? `<span class="pb-gen-set-label">${tr('pb.set').replace('{n}', g + 1)}</span>` : '';
+      html += `<div class="pb-gen-set">${label}<div class="pb-gen-set-balls">${balls}</div></div>`;
+    }
     $('pb-gen-out').innerHTML = html;
   }
 
@@ -289,6 +295,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const b = e.target.closest('.pb-mode-btn'); if (!b) return;
     document.querySelectorAll('#pb-mode-row .pb-mode-btn').forEach(x => x.classList.toggle('active', x === b));
     state.mode = b.getAttribute('data-mode');
+  });
+
+  $('pb-count-seg').addEventListener('click', (e) => {
+    const b = e.target.closest('.pb-seg-btn'); if (!b) return;
+    document.querySelectorAll('#pb-count-seg .pb-seg-btn').forEach(x => x.classList.toggle('active', x === b));
+    state.genCount = parseInt(b.getAttribute('data-count'), 10) || 1;
+    if (state.loaded && $('pb-gen-out').querySelector('.pb-gen-set')) generate();
   });
 
   $('pb-gen-btn').addEventListener('click', generate);
