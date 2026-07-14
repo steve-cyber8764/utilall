@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     range: 100,
     pool: 'white',
     mode: 'hot',
-    genCount: 1,  // 생성할 게임 수 (1~5)
+    genCount: 1,  // 선택한 게임 수 (1~5)
+    sets: [],     // 생성된 게임 결과 보존 [{white:[5], pb}] — '번호 생성' 때만 갱신
     fmin: null,   // 출현 횟수 필터 최소
     fmax: null,   // 출현 횟수 필터 최대
     loaded: false,
@@ -245,24 +246,47 @@ document.addEventListener('DOMContentLoaded', () => {
     return list;
   }
 
-  // 결과 칸을 안내 문구(빈 상태)로 초기화 — 설정 변경 시 사용
-  function resetGenOut() {
-    $('pb-gen-out').innerHTML = `<div class="pb-loading">${tr('pb.genHint')}</div>`;
+  // 한 게임(흰 공 5 + 파워볼 1) 생성
+  function makeSet(c) {
+    return {
+      white: weightedPick(weightsFor(c.white, WHITE_MAX, state.mode), WHITE_PICK),
+      pb: weightedPick(weightsFor(c.pb, PB_MAX, state.mode), 1)[0],
+    };
   }
 
+  function setLabel(idx, show) {
+    return show ? `<span class="pb-gen-set-label">${tr('pb.set').replace('{n}', idx + 1)}</span>` : '';
+  }
+  function setRow(set, idx, show) {
+    const balls = set.white.map(n => ball(n)).join('') + '<span class="pb-plus">+</span>' + ball(set.pb, 'pb');
+    return `<div class="pb-gen-set">${setLabel(idx, show)}<div class="pb-gen-set-balls">${balls}</div></div>`;
+  }
+  function blankRow(idx, show) {
+    const balls = '<div class="pb-ball empty"></div>'.repeat(WHITE_PICK)
+      + '<span class="pb-plus">+</span><div class="pb-ball red empty"></div>';
+    return `<div class="pb-gen-set">${setLabel(idx, show)}<div class="pb-gen-set-balls">${balls}</div></div>`;
+  }
+
+  // 결과 칸 렌더: 생성된 세트는 유지, 늘어난 슬롯은 빈칸, 줄어든 줄은 숨김(데이터는 보존)
+  function renderGenOut() {
+    const out = $('pb-gen-out');
+    if (!state.sets.length) { out.innerHTML = `<div class="pb-loading">${tr('pb.genHint')}</div>`; return; }
+    const multi = state.genCount > 1;
+    let html = '';
+    for (let i = 0; i < state.genCount; i++) {
+      html += state.sets[i] ? setRow(state.sets[i], i, multi) : blankRow(i, multi);
+    }
+    out.innerHTML = html;
+  }
+
+  // '번호 생성' — 선택한 게임 수만큼 전부 새로 생성(초과분 폐기)
   function generate() {
     if (!state.loaded) return;
     const c = counts(activeDraws());
-    const multi = state.genCount > 1;
-    let html = '';
-    for (let g = 0; g < state.genCount; g++) {
-      const white = weightedPick(weightsFor(c.white, WHITE_MAX, state.mode), WHITE_PICK);
-      const pb = weightedPick(weightsFor(c.pb, PB_MAX, state.mode), 1)[0];
-      const balls = white.map(n => ball(n)).join('') + '<span class="pb-plus">+</span>' + ball(pb, 'pb');
-      const label = multi ? `<span class="pb-gen-set-label">${tr('pb.set').replace('{n}', g + 1)}</span>` : '';
-      html += `<div class="pb-gen-set">${label}<div class="pb-gen-set-balls">${balls}</div></div>`;
-    }
-    $('pb-gen-out').innerHTML = html;
+    const arr = [];
+    for (let g = 0; g < state.genCount; g++) arr.push(makeSet(c));
+    state.sets = arr;
+    renderGenOut();
   }
 
   /* ── 이벤트 ─────────────────────────────────────────── */
@@ -300,20 +324,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const b = e.target.closest('.pb-mode-btn'); if (!b) return;
     document.querySelectorAll('#pb-mode-row .pb-mode-btn').forEach(x => x.classList.toggle('active', x === b));
     state.mode = b.getAttribute('data-mode');
-    resetGenOut();  // 설정만 바꾸면 번호는 지우고, '번호 생성'을 눌러야 나옴
+    state.sets = [];   // 모드가 바뀌면 이전 번호는 무효 → 비우고 '번호 생성'을 눌러야 나옴
+    renderGenOut();
   });
 
   $('pb-count-seg').addEventListener('click', (e) => {
     const b = e.target.closest('.pb-seg-btn'); if (!b) return;
     document.querySelectorAll('#pb-count-seg .pb-seg-btn').forEach(x => x.classList.toggle('active', x === b));
     state.genCount = parseInt(b.getAttribute('data-count'), 10) || 1;
-    resetGenOut();  // 게임 수를 바꾸면 결과 칸은 빈 상태로 — '번호 생성'을 눌러야 생성
+    renderGenOut();   // 표시만 갱신(생성된 세트는 보존) — 늘리면 빈칸, 줄이면 숨김
   });
 
   $('pb-gen-btn').addEventListener('click', generate);
 
   window.addEventListener('langchange', () => {
-    if (state.loaded) { renderLatest(); renderRecent(); recompute(); }
+    if (state.loaded) { renderLatest(); renderRecent(); recompute(); renderGenOut(); }
   });
 
   load();

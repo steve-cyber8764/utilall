@@ -1846,6 +1846,8 @@ body.dark-theme .theme-toggle-btn:hover {
   color: #fff; box-shadow: 0 4px 14px rgba(214,31,58,0.45), inset 0 -3px 6px rgba(0,0,0,0.2);
   border-color: rgba(255,255,255,0.15);
 }
+.pb-ball.empty { background: transparent; border: 2px dashed var(--border-glass); box-shadow: none; }
+.pb-ball.red.empty { border-color: rgba(214, 31, 58, 0.4); }
 .pb-ball-n { font-size: 1.35rem; line-height: 1; font-family: var(--font-mono); }
 .pb-plus { font-size: 1.4rem; font-weight: 800; color: var(--text-muted); margin: 0 0.15rem; }
 .pb-loading, .pb-error { color: var(--text-muted); font-weight: 600; padding: 0.8rem 0; }
