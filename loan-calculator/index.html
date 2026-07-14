@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <script>if(location.hostname==='www.utilall.net'){location.replace('https://utilall.net'+location.pathname+location.search+location.hash);}</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>금리 계산기 — UtilAll | 대출 이자·월 상환금 계산기</title>
+  <meta name="description" content="원금·금리·거치기간·상환방식(원리금균등/원금균등/만기일시)을 입력해 월 상환금, 연 상환금, 총 이자를 한눈에 계산하는 무료 대출 금리 계산기.">
+  <meta name="keywords" content="금리 계산기, 대출 계산기, 이자 계산기, 원리금균등, 원금균등, 만기일시, 월 상환금, 대출 이자, 거치기간, loan calculator">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://utilall.net/loan-calculator/">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://utilall.net/loan-calculator/">
+  <meta property="og:title" content="금리 계산기 — UtilAll | 대출 이자·월 상환금 계산기">
+  <meta property="og:description" content="원금·금리·거치·상환방식을 입력해 월 상환금·연 상환금·총 이자를 한눈에 계산.">
+  <meta property="og:site_name" content="UtilAll">
+  <meta property="og:image" content="https://utilall.net/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="theme-color" content="#d1d7e0" id="meta-theme-color">
+  <meta name="google-site-verification" content="wPcD3bWiKcD3S-N029kPnKU0dM68TCHDYXIYeoNPupI">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="금리 계산기 — UtilAll | 대출 이자·월 상환금 계산기">
+  <meta name="twitter:description" content="원금·금리·거치·상환방식을 입력해 월 상환금·연 상환금·총 이자를 한눈에 계산.">
+  <meta name="twitter:image" content="https://utilall.net/og-image.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"UtilAll 금리 계산기","url":"https://utilall.net/loan-calculator/","description":"원금·금리·거치기간·상환방식을 입력해 월 상환금·연 상환금·총 이자를 계산하는 무료 대출 금리 계산기","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2316821595071188" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="bg-glow bg-glow-1"></div><div class="bg-glow bg-glow-2"></div><div class="bg-glow bg-glow-3"></div>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <a class="sidebar-brand" href="/" aria-label="홈으로 이동">
+        <span class="brand-icon">⚡</span>
+        <div class="brand-name">Util<span class="highlight">All</span></div>
+      </a>
+      <nav class="sidebar-nav">
+        <a class="nav-item" href="/" data-page="home" id="nav-home">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span data-i18n="nav.home">대시보드</span>
+        </a>
+        <a class="nav-item" href="/calculator/" data-page="calc" id="nav-calc">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/></svg>
+          <span data-i18n="nav.calc">전자계산기</span>
+        </a>
+        <a class="nav-item" href="/loan-calculator/" data-page="loan" id="nav-loan">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>
+          <span data-i18n="nav.loan">금리 계산기</span>
+        </a>
+        <a class="nav-item" href="/base-converter/" data-page="base" id="nav-base">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+          <span data-i18n="nav.base">진수(진법) 변환기</span>
+        </a>
+        <a class="nav-item" href="/area-converter/" data-page="area" id="nav-area">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+          <span data-i18n="nav.area">넓이 변환기</span>
+        </a>
+        <a class="nav-item" href="/length-converter/" data-page="length" id="nav-length">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/><path d="M20 9v6M16 11v2M12 9v6M8 11v2M4 9v6"/></svg>
+          <span data-i18n="nav.length">길이 변환기</span>
+        </a>
+        <a class="nav-item" href="/distance-converter/" data-page="distance" id="nav-distance">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>
+          <span data-i18n="nav.distance">거리 변환기</span>
+        </a>
+        <a class="nav-item" href="/weight-converter/" data-page="weight" id="nav-weight">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><path d="M6.5 8h11l1.84 9.2a2 2 0 0 1-2 2.4H6.66a2 2 0 0 1-2-2.4z"/></svg>
+          <span data-i18n="nav.weight">무게 변환기</span>
+        </a>
+        <a class="nav-item" href="/pdf-watermark/" data-page="pdf" id="nav-pdf">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="9" y1="18" x2="13" y2="18"/></svg>
+          <span data-i18n="nav.pdf">PDF 워터마크</span>
+        </a>
+        <a class="nav-item" href="/space-explorer/" data-page="space" id="nav-space">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3a9 9 0 1 0 9 9"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-30 12 12)"/></svg>
+          <span data-i18n="nav.space">우주 거리</span>
+        </a>
+        <a class="nav-item" href="/timer/" data-page="timer" id="nav-timer">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M9 2h6"/></svg>
+          <span data-i18n="nav.timer">타이머</span>
+        </a>
+        <a class="nav-item" href="/powerball/" data-page="powerball" id="nav-powerball">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.5"/></svg>
+          <span data-i18n="nav.powerball">파워볼 분석</span>
+        </a>
+      </nav>
+      <div class="lang-switch-wrapper">
+        <span class="lang-globe">🌐</span>
+        <button class="lang-btn" data-lang="ko">한국어</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+      <div class="theme-switch-wrapper">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="테마 전환">
+          <span class="theme-toggle-icon">☀️</span>
+          <span class="theme-toggle-text" data-i18n="theme.dark">다크 모드</span>
+        </button>
+      </div>
+      <div class="sidebar-footer">
+        <div class="visitor-counter" id="visitor-counter">
+          <span class="vc-icon">👥</span>
+          <span class="vc-label" data-i18n="visitors">방문자</span>
+          <span class="vc-count" id="vc-count">—</span>
+        </div>
+        <p class="copyright">&copy; 2026 UtilAll</p>
+        <a class="footer-privacy" href="/privacy.html" data-i18n="home.privacy">개인정보처리방침</a>
+      </div>
+    </aside>
+    <main class="content-wrapper">
+      <section id="section-loan" class="tab-section active">
+        <div class="section-header">
+          <div class="badge">FINANCE TOOL</div>
+          <h1 class="section-title" data-i18n="loan.title">금리 계산기</h1>
+          <p class="section-desc" data-i18n="loan.desc">원금·금리·거치·상환 방식을 입력하면 월 상환금과 연 상환금, 총 이자를 한눈에 보여줍니다.</p>
+        </div>
+
+        <div class="loan-layout">
+          <div class="loan-input-panel glass-panel">
+            <div class="loan-field">
+              <label for="loan-currency" data-i18n="loan.currency">통화</label>
+              <select id="loan-currency" class="loan-select">
+                <option value="KRW" selected>🇰🇷 KRW (₩) 원</option>
+                <option value="USD">🇺🇸 USD ($) 달러</option>
+                <option value="EUR">🇪🇺 EUR (€) 유로</option>
+                <option value="JPY">🇯🇵 JPY (¥) 엔</option>
+                <option value="CNY">🇨🇳 CNY (¥) 위안</option>
+                <option value="GBP">🇬🇧 GBP (£) 파운드</option>
+                <option value="INR">🇮🇳 INR (₹) 루피</option>
+                <option value="AUD">🇦🇺 AUD (A$) 호주달러</option>
+                <option value="CAD">🇨🇦 CAD (C$) 캐나다달러</option>
+                <option value="HKD">🇭🇰 HKD (HK$) 홍콩달러</option>
+                <option value="TWD">🇹🇼 TWD (NT$) 대만달러</option>
+                <option value="SGD">🇸🇬 SGD (S$) 싱가포르달러</option>
+                <option value="VND">🇻🇳 VND (₫) 베트남동</option>
+                <option value="THB">🇹🇭 THB (฿) 태국바트</option>
+              </select>
+            </div>
+            <div class="loan-field">
+              <label for="loan-principal"><span data-i18n="loan.principal">원금 (대출금액)</span> <span id="loan-principal-kr" class="loan-kr"></span></label>
+              <div class="loan-input-group"><input type="text" inputmode="numeric" id="loan-principal" value="100,000,000" autocomplete="off"><span class="loan-unit" id="loan-principal-unit">₩</span></div>
+            </div>
+            <div class="loan-field">
+              <label for="loan-rate" data-i18n="loan.rate">연 이자율</label>
+              <div class="loan-input-group"><input type="number" id="loan-rate" value="4.5" min="0" step="0.01"><span class="loan-unit">%</span></div>
+            </div>
+            <div class="loan-row2">
+              <div class="loan-field">
+                <label for="loan-grace" data-i18n="loan.grace">거치 기간</label>
+                <div class="loan-input-group"><input type="number" id="loan-grace" value="0" min="0" step="1"><span class="loan-unit" data-i18n="loan.months">개월</span></div>
+              </div>
+              <div class="loan-field">
+                <label for="loan-term" data-i18n="loan.term">상환 기간</label>
+                <div class="loan-input-group">
+                  <input type="number" id="loan-term" value="30" min="1" step="1">
+                  <select id="loan-term-unit" class="loan-unit-sel">
+                    <option value="years" selected data-i18n="loan.years">년</option>
+                    <option value="months" data-i18n="loan.months">개월</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="loan-field">
+              <label data-i18n="loan.method">상환 방식</label>
+              <div class="loan-method">
+                <label><input type="radio" name="loan-method" value="equal_payment" checked> <span data-i18n="loan.equalPayment">원리금균등</span></label>
+                <label><input type="radio" name="loan-method" value="equal_principal"> <span data-i18n="loan.equalPrincipal">원금균등</span></label>
+                <label><input type="radio" name="loan-method" value="bullet"> <span data-i18n="loan.bullet">만기일시</span></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="loan-summary glass-panel">
+            <div class="loan-primary">
+              <div class="loan-primary-label" data-i18n="loan.monthly">월 상환금</div>
+              <div class="loan-primary-val" id="loan-monthly">—</div>
+              <div class="loan-primary-sub" id="loan-monthly-sub"></div>
+              <div class="loan-breakdown">
+                <div class="lb-item"><span class="lb-label" data-i18n="loan.yearInterest">이자</span><span class="lb-val lb-interest" id="loan-m-interest">—</span></div>
+                <div class="lb-item"><span class="lb-label" data-i18n="loan.yearPrincipal">원금</span><span class="lb-val lb-principal" id="loan-m-principal">—</span></div>
+              </div>
+            </div>
+            <div class="loan-stats">
+              <div class="loan-stat"><span class="ls-label" data-i18n="loan.yearly">연 상환금 (1년차)</span><span class="ls-val" id="loan-yearly">—</span></div>
+              <div class="loan-stat"><span class="ls-label" data-i18n="loan.graceMonthly">거치기간 월 이자</span><span class="ls-val" id="loan-grace-monthly">—</span></div>
+              <div class="loan-stat"><span class="ls-label" data-i18n="loan.totalInterest">총 이자</span><span class="ls-val" id="loan-total-interest">—</span></div>
+              <div class="loan-stat"><span class="ls-label" data-i18n="loan.totalPay">총 상환액</span><span class="ls-val" id="loan-total">—</span></div>
+              <div class="loan-stat"><span class="ls-label" data-i18n="loan.totalMonths">총 상환 회차</span><span class="ls-val" id="loan-months">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="loan-schedule glass-panel">
+          <h3 data-i18n="loan.schedule">연도별 상환 계획</h3>
+          <div class="loan-table-wrap">
+            <table class="loan-table">
+              <thead><tr>
+                <th data-i18n="loan.year">연차</th>
+                <th data-i18n="loan.yearPay">연 상환금</th>
+                <th data-i18n="loan.yearInterest">이자</th>
+                <th data-i18n="loan.yearPrincipal">원금</th>
+                <th data-i18n="loan.balance">잔액</th>
+              </tr></thead>
+              <tbody id="loan-schedule-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="info-panel glass-panel" style="display:block;margin-top:1.5rem">
+          <ul style="padding-left:1.2rem">
+            <li data-i18n="loan.note1">원리금균등: 매달 같은 금액(원금+이자)을 상환합니다. 가장 일반적인 방식입니다.</li>
+            <li data-i18n="loan.note2">원금균등: 매달 같은 원금 + 남은 이자를 상환해, 초반이 많고 갈수록 줄어듭니다.</li>
+            <li data-i18n="loan.note3">만기일시: 매달 이자만 내고 만기에 원금을 한 번에 상환합니다.</li>
+            <li data-i18n="loan.note4">거치기간에는 원금 없이 이자만 납부하며, 거치 후 상환이 시작됩니다. 결과는 참고용 근사치입니다.</li>
+          </ul>
+        </div>
+      </section>
+      <div class="ad-container"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2316821595071188" data-ad-slot="1684982293" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    </main>
+  </div>
+  <script src="../i18n.js"></script><script src="../common.js"></script><script src="loan.js"></script>
+</body>
+</html>

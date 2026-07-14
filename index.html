@@ -10,8 +10,8 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UtilAll | 다기능 종합 유틸리티 키트 - 계산기, 진법, 넓이, 길이 변환</title>
-  <meta name="description" content="일상 및 개발 환경에서 유용한 전자계산기, 진법계산기, 넓이 변환기(제곱미터/평), 길이 변환기를 한곳에 모은 세련된 무료 유틸리티 모음 웹앱 서비스 UtilAll입니다.">
-  <meta name="keywords" content="유틸리티, 계산기, 괄호 계산기, 진법 계산기, 16진수 변환, 넓이 변환, 평수 계산기, 아파트 평형, 길이 변환, 단위 변환기, UtilAll">
+  <meta name="description" content="일상 및 개발 환경에서 유용한 전자계산기, 진수(진법) 변환기, 넓이 변환기(제곱미터/평), 길이 변환기를 한곳에 모은 세련된 무료 유틸리티 모음 웹앱 서비스 UtilAll입니다.">
+  <meta name="keywords" content="유틸리티, 계산기, 괄호 계산기, 진수(진법) 변환기, 16진수 변환, 넓이 변환, 평수 계산기, 아파트 평형, 길이 변환, 단위 변환기, UtilAll">
   <meta name="author" content="Antigravity Dev Team">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://utilall.net/">
@@ -24,8 +24,8 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://utilall.net/">
   <meta property="og:title" content="UtilAll | 다기능 종합 유틸리티 키트">
-  <meta property="og:description" content="전자계산기(괄호/기록), 진법계산기(2/8/10/16진수), 넓이 및 길이 변환기를 한눈에 보기 편하게 제공하는 프리미엄 웹 유틸리티 서비스입니다.">
-  <meta property="og:image" content="https://utilall.net/assets/og-image.png">
+  <meta property="og:description" content="전자계산기(괄호/기록), 진수(진법) 변환기(2/8/10/16진수), 넓이 및 길이 변환기를 한눈에 보기 편하게 제공하는 프리미엄 웹 유틸리티 서비스입니다.">
+  <meta property="og:image" content="https://utilall.net/og-image.png">
   <meta property="og:site_name" content="UtilAll">
   <meta property="og:locale" content="ko_KR">
 
@@ -33,8 +33,8 @@
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://utilall.net/">
   <meta property="twitter:title" content="UtilAll | 다기능 종합 유틸리티 키트">
-  <meta property="twitter:description" content="전자계산기(괄호/기록), 진법계산기(2/8/10/16진수), 넓이 및 길이 변환기를 한눈에 보기 편하게 제공하는 프리미엄 웹 유틸리티 서비스입니다.">
-  <meta property="twitter:image" content="https://utilall.net/assets/og-image.png">
+  <meta property="twitter:description" content="전자계산기(괄호/기록), 진수(진법) 변환기(2/8/10/16진수), 넓이 및 길이 변환기를 한눈에 보기 편하게 제공하는 프리미엄 웹 유틸리티 서비스입니다.">
+  <meta property="twitter:image" content="https://utilall.net/og-image.png">
 
   <!-- Mobile Optimization -->
   <meta name="theme-color" content="#d1d7e0" id="meta-theme-color">
@@ -56,6 +56,8 @@
   
   <!-- CSS Link -->
   <link rel="stylesheet" href="style.css">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 </head>
 <body>
   <!-- Neon Background Glows -->
@@ -80,9 +82,13 @@
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
           <span data-i18n="nav.calc">전자계산기</span>
         </a>
+        <a class="nav-item" href="/loan-calculator/" data-page="loan" id="nav-loan">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>
+          <span data-i18n="nav.loan">금리 계산기</span>
+        </a>
         <a class="nav-item" href="/base-converter/" data-page="base" id="nav-base">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
-          <span data-i18n="nav.base">진법계산기</span>
+          <span data-i18n="nav.base">진수(진법) 변환기</span>
         </a>
         <a class="nav-item" href="/area-converter/" data-page="area" id="nav-area">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
@@ -111,6 +117,10 @@
         <a class="nav-item" href="/timer/" data-page="timer" id="nav-timer">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M9 2h6"/></svg>
           <span data-i18n="nav.timer">타이머</span>
+        </a>
+        <a class="nav-item" href="/powerball/" data-page="powerball" id="nav-powerball">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.5"/></svg>
+          <span data-i18n="nav.powerball">파워볼 분석</span>
         </a>
       </nav>
 
@@ -185,13 +195,25 @@
             </div>
           </a>
 
+          <!-- Card: Loan Calculator -->
+          <a class="dashboard-card" href="/loan-calculator/">
+            <div class="card-icon loan-color">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>
+            </div>
+            <div class="card-details">
+              <h3 data-i18n="card.loan.title">금리 계산기</h3>
+              <p data-i18n="card.loan.desc">원금·금리·거치·상환 방식을 입력해 월 상환금, 연 상환금, 총 이자를 한눈에 계산합니다.</p>
+              <span class="go-link" data-i18n="common.start">시작하기 &rarr;</span>
+            </div>
+          </a>
+
           <!-- Card: Base Converter -->
           <a class="dashboard-card" href="/base-converter/">
             <div class="card-icon base-color">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
             </div>
             <div class="card-details">
-              <h3 data-i18n="card.base.title">진법계산기</h3>
+              <h3 data-i18n="card.base.title">진수(진법) 변환기</h3>
               <p data-i18n="card.base.desc">2진수, 8진수, 10진수, 16진수 간의 값을 실시간으로 변환하고 입력을 제한합니다.</p>
               <span class="go-link" data-i18n="common.start">시작하기 &rarr;</span>
             </div>
@@ -277,6 +299,18 @@
             <div class="card-details">
               <h3 data-i18n="card.timer.title">타이머</h3>
               <p data-i18n="card.timer.desc">집중·운동·요리 등에 쓰는 SyncaTimer 타이머/스톱워치를 바로 사용하세요.</p>
+              <span class="go-link" data-i18n="common.start">시작하기 &rarr;</span>
+            </div>
+          </a>
+
+          <!-- Card: Powerball Analyzer -->
+          <a class="dashboard-card" href="/powerball/">
+            <div class="card-icon" style="background:linear-gradient(135deg,#dc2626,#7c3aed)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.5"/></svg>
+            </div>
+            <div class="card-details">
+              <h3 data-i18n="card.powerball.title">파워볼 분석기</h3>
+              <p data-i18n="card.powerball.desc">미국 파워볼 당첨번호를 자동 수집해 번호별 출현 빈도·출현율, 핫·콜드 번호를 분석하고 번호를 생성합니다.</p>
               <span class="go-link" data-i18n="common.start">시작하기 &rarr;</span>
             </div>
           </a>

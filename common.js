@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '':                    'home',
       '/':                   'home',
       '/calculator':         'calc',
+      '/loan-calculator':   'loan',
       '/base-converter':     'base',
       '/area-converter':     'area',
       '/length-converter':   'length',
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '/pdf-watermark':      'pdf',
       '/space-explorer':     'space',
       '/timer':              'timer',
+      '/powerball':          'powerball',
     };
     const activePage = pageMap[path] || 'home';
     document.querySelectorAll('.nav-item[data-page]').forEach(item => {
