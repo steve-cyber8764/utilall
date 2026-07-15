@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '/space-explorer':     'space',
       '/timer':              'timer',
       '/powerball':          'powerball',
+      '/mega-millions':      'mega',
     };
     const activePage = pageMap[path] || 'home';
     document.querySelectorAll('.nav-item[data-page]').forEach(item => {

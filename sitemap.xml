@@ -73,6 +73,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://utilall.net/mega-millions/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://utilall.net/privacy.html</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>yearly</changefreq>

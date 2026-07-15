@@ -1978,6 +1978,18 @@ body.dark-theme .theme-toggle-btn:hover {
 }
 .pb-mini.red { background: color-mix(in srgb, var(--accent-coral) 22%, transparent); border-color: rgba(214,31,58,0.4); color: var(--accent-coral); }
 
+/* 메가 밀리언 — 골드 볼 변형 */
+.pb-ball.gold {
+  background: linear-gradient(145deg, #ffd75e, #e0a010);
+  color: #3a2a00; box-shadow: 0 4px 14px rgba(224,160,16,0.45), inset 0 -3px 6px rgba(0,0,0,0.18);
+  border-color: rgba(255,255,255,0.25);
+}
+.pb-ball.gold.empty { background: transparent; border-color: rgba(224,160,16,0.5); box-shadow: none; }
+.pb-hc-ball.gold { border-color: rgba(224,160,16,0.5); }
+.pb-hc-ball.gold .pb-hc-num { color: #b9820a; }
+.pb-cell.gold { background: color-mix(in srgb, #e0a010 calc(var(--t) * 85%), transparent); }
+.pb-mini.gold { background: color-mix(in srgb, #e0a010 24%, transparent); border-color: rgba(224,160,16,0.5); color: #b9820a; }
+
 @media (max-width: 640px) {
   .pb-hotcold { grid-template-columns: 1fr; }
   .pb-ball { width: 46px; height: 46px; }
