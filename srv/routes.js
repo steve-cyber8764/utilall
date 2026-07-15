@@ -1,24 +1,21 @@
-/* routes.js — 회원(이메일 인증) + 게시판 API
+/* routes.js — 회원(간편 가입) + 게시판 API
  * 엔드포인트:
- *   POST /api/signup   {email,password,name,lang}  회원가입 + 인증메일 발송
- *   POST /api/resend   {email,lang}                인증메일 재발송
- *   GET  /api/verify?token=...                     이메일 인증 → /board/ 로 리다이렉트
- *   POST /api/login    {email,password}            로그인(세션 쿠키)
- *   POST /api/logout                               로그아웃
- *   GET  /api/me                                   현재 로그인 사용자
- *   GET  /api/posts                                게시글 목록(공개)
- *   POST /api/posts    {title,body}                글쓰기(로그인+인증 필요)
- *   DELETE /api/posts/:id                          내 글 삭제
+ *   POST /api/signup   {email,password,name}  회원가입(즉시 활성) + 자동 로그인
+ *   POST /api/login    {email,password}       로그인(세션 쿠키)
+ *   POST /api/logout                          로그아웃
+ *   GET  /api/me                              현재 로그인 사용자
+ *   GET  /api/posts                           게시글 목록(공개)
+ *   POST /api/posts    {title,body}           글쓰기(로그인 필요)
+ *   DELETE /api/posts/:id                     내 글 삭제
+ * 참고: Railway가 외부 SMTP를 차단하므로 이메일 인증 대신 간편 가입 사용.
  */
 const express = require('express');
 const store = require('./store');
-const mail = require('./mail');
 const db = require('./db');
 
 const router = express.Router();
 
 const SESSION_TTL = 30 * 24 * 3600 * 1000; // 30일
-const VERIFY_TTL = 24 * 3600 * 1000;       // 24시간
 const COOKIE = 'sid';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -65,75 +62,28 @@ function displayName(name, email) {
   const [u, d] = String(email).split('@');
   return (u.slice(0, 2) + '***') + '@' + (d || '');
 }
-function baseUrl(req) {
-  return process.env.PUBLIC_BASE_URL || `${req.protocol}://${req.get('host')}`;
-}
 
 router.use(express.json({ limit: '64kb' }));
 router.use(loadUser);
 
-/* ── 회원가입 ── */
+/* ── 회원가입 (간편 가입 + 자동 로그인) ── */
 router.post('/signup', requireDb, async (req, res) => {
-  if (limited('signup:' + req.ip, 10, 60 * 60 * 1000)) return res.status(429).json({ error: 'rate_limited' });
+  if (limited('signup:' + req.ip, 15, 60 * 60 * 1000)) return res.status(429).json({ error: 'rate_limited' });
   const email = String(req.body.email || '').trim().toLowerCase();
   const password = String(req.body.password || '');
   const name = String(req.body.name || '').trim().slice(0, 40);
-  const lang = req.body.lang === 'en' ? 'en' : 'ko';
   if (!EMAIL_RE.test(email) || email.length > 120) return res.status(400).json({ error: 'invalid_email' });
   if (password.length < 8 || password.length > 200) return res.status(400).json({ error: 'weak_password' });
 
   try {
     if (await store.getUserByEmail(email)) return res.status(409).json({ error: 'email_taken' });
-    const user = await store.createUser(email, password, name);
-    const token = await store.createEmailToken(user.id, 'verify', VERIFY_TTL);
-    const link = `${baseUrl(req)}/api/verify?token=${token}`;
-    let devLink;
-    try {
-      const r = await mail.sendVerification(email, link, lang);
-      if (r && r.dev) devLink = link;
-    } catch (e) {
-      if (e.code === 'mail_not_configured') return res.status(500).json({ error: 'mail_not_configured' });
-      throw e;
-    }
-    res.json({ ok: true, ...(devLink ? { devLink } : {}) });
+    const user = await store.createUser(email, password, name); // verified=TRUE
+    const token = await store.createSession(user.id, SESSION_TTL);
+    setSid(res, token); // 가입 즉시 자동 로그인
+    res.json({ user: { email: user.email, name: user.name, verified: true } });
   } catch (e) {
     console.error('[signup]', e.message);
     res.status(500).json({ error: 'server_error' });
-  }
-});
-
-/* ── 인증메일 재발송 ── */
-router.post('/resend', requireDb, async (req, res) => {
-  if (limited('resend:' + req.ip, 10, 60 * 60 * 1000)) return res.status(429).json({ error: 'rate_limited' });
-  const email = String(req.body.email || '').trim().toLowerCase();
-  const lang = req.body.lang === 'en' ? 'en' : 'ko';
-  try {
-    const user = await store.getUserByEmail(email);
-    let devLink;
-    if (user && !user.verified) {
-      const token = await store.createEmailToken(user.id, 'verify', VERIFY_TTL);
-      const link = `${baseUrl(req)}/api/verify?token=${token}`;
-      try { const r = await mail.sendVerification(email, link, lang); if (r && r.dev) devLink = link; }
-      catch (e) { if (e.code !== 'mail_not_configured') throw e; }
-    }
-    res.json({ ok: true, ...(devLink ? { devLink } : {}) }); // 이메일 존재 여부는 노출하지 않음
-  } catch (e) {
-    console.error('[resend]', e.message);
-    res.status(500).json({ error: 'server_error' });
-  }
-});
-
-/* ── 이메일 인증 ── */
-router.get('/verify', requireDb, async (req, res) => {
-  const token = String(req.query.token || '');
-  try {
-    const userId = await store.consumeEmailToken(token, 'verify');
-    if (!userId) return res.redirect('/board/?verify=fail');
-    await store.setVerified(userId);
-    res.redirect('/board/?verify=ok');
-  } catch (e) {
-    console.error('[verify]', e.message);
-    res.redirect('/board/?verify=fail');
   }
 });
 
@@ -145,7 +95,6 @@ router.post('/login', requireDb, async (req, res) => {
   try {
     const user = await store.getUserByEmail(email);
     if (!user || !store.verifyPassword(password, user.pass_hash)) return res.status(401).json({ error: 'bad_credentials' });
-    if (!user.verified) return res.status(403).json({ error: 'unverified' });
     const token = await store.createSession(user.id, SESSION_TTL);
     setSid(res, token);
     res.json({ user: { email: user.email, name: user.name, verified: true } });

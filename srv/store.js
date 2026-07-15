@@ -27,8 +27,9 @@ const token = () => crypto.randomBytes(32).toString('hex');
 
 /* ── users ── */
 async function createUser(email, pw, name) {
+  // 간편 가입: 인증메일 없이 즉시 활성(verified=TRUE) — Railway가 외부 SMTP를 차단하므로 SMTP 인증메일 대신 사용
   const r = await q(
-    'INSERT INTO users (email, pass_hash, name) VALUES ($1, $2, $3) RETURNING id, email, name, verified',
+    'INSERT INTO users (email, pass_hash, name, verified) VALUES ($1, $2, $3, TRUE) RETURNING id, email, name, verified',
     [email.toLowerCase(), hashPassword(pw), name || null]
   );
   return r.rows[0];

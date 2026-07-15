@@ -61,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
            <input type="email" name="email" class="bd-input" placeholder="${esc(t('bd.phEmail'))}" autocomplete="email" required>
            <input type="password" name="password" class="bd-input" placeholder="${esc(t('bd.phPassword'))}" autocomplete="current-password" required>
            <button type="submit" class="bd-btn primary">${esc(t('bd.login'))}</button>
-           <button type="button" class="bd-link" data-action="resend">${esc(t('bd.resend'))}</button>
            <div class="bd-msg" data-msg="login"></div>
          </form>
          <form class="bd-form" data-form="signup" style="display:none">
@@ -139,12 +138,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (act === 'logout') {
       await api('POST', '/api/logout');
       state.user = null; renderAuth(); loadPosts();
-    } else if (act === 'resend') {
-      const email = (document.querySelector('#bd-auth form[data-form="login"] input[name="email"]') || {}).value || '';
-      if (!email) { setMsg('login', t('bd.needEmail'), 'err'); return; }
-      const r = await api('POST', '/api/resend', { email, lang: lang() });
-      setMsg('login', t('bd.resendSent'), 'ok');
-      if (r.data.devLink) devLink('login', r.data.devLink);
     }
   });
 
@@ -164,21 +157,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (r.ok) { state.user = r.data.user; renderAuth(); loadPosts(); }
         else setMsg('login', ERR(r.data.error), 'err');
       } else {
-        const r = await api('POST', '/api/signup', { email, password, name, lang: lang() });
-        if (r.ok) {
-          setMsg('signup', t('bd.signupSent'), 'ok');
-          form.reset();
-          if (r.data.devLink) devLink('signup', r.data.devLink);
-        } else setMsg('signup', ERR(r.data.error), 'err');
+        const r = await api('POST', '/api/signup', { email, password, name });
+        // 간편 가입: 성공 시 서버가 세션 쿠키+user를 반환 → 자동 로그인
+        if (r.ok && r.data.user) { state.user = r.data.user; renderAuth(); loadPosts(); }
+        else setMsg('signup', ERR(r.data.error), 'err');
       }
     } finally { btn.disabled = false; }
   });
-
-  // 개발 모드에서만 서버가 devLink를 반환 → 인증 링크 노출(로컬 테스트용)
-  function devLink(which, url) {
-    const el = document.querySelector(`#bd-auth .bd-msg[data-msg="${which}"]`);
-    if (el) el.innerHTML += ` <a href="${esc(url)}" style="color:var(--accent-blue)">[DEV 인증]</a>`;
-  }
 
   /* ── 이벤트: 글쓰기 ── */
   $('bd-post-btn').addEventListener('click', async () => {
