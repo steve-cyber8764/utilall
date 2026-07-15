@@ -1990,9 +1990,114 @@ body.dark-theme .theme-toggle-btn:hover {
 .pb-cell.gold { background: color-mix(in srgb, #e0a010 calc(var(--t) * 85%), transparent); }
 .pb-mini.gold { background: color-mix(in srgb, #e0a010 24%, transparent); border-color: rgba(224,160,16,0.5); color: #b9820a; }
 
+/* ==================== 개선사항 게시판 (Board) ==================== */
+.bd-banner { padding: 0.85rem 1.1rem; border-radius: 12px; font-weight: 700; margin-bottom: 1.1rem; font-size: 0.9rem; }
+.bd-banner.ok { background: color-mix(in srgb, #10b981 18%, transparent); border: 1px solid rgba(16,185,129,0.4); color: #059669; }
+.bd-banner.err { background: color-mix(in srgb, var(--accent-coral) 15%, transparent); border: 1px solid rgba(214,31,58,0.4); color: var(--accent-coral); }
+
+.bd-auth { padding: 1.4rem 1.5rem; margin-bottom: 1.25rem; }
+.bd-tabs { display: flex; gap: 4px; padding: 4px; background: var(--bg-display); border-radius: 12px; border: 1px solid var(--border-glass); margin-bottom: 1.1rem; }
+.bd-tab { flex: 1; border: none; background: transparent; color: var(--text-muted); font-family: var(--font-main); font-weight: 700; font-size: 0.9rem; padding: 0.5rem; border-radius: 9px; cursor: pointer; transition: var(--transition-smooth); }
+.bd-tab:hover { color: var(--text-primary); }
+.bd-tab.active { background: var(--accent-cyan); color: #fff; box-shadow: var(--glow-cyan); }
+
+.bd-form { display: flex; flex-direction: column; gap: 0.7rem; }
+.bd-input, .bd-textarea {
+  width: 100%; padding: 0.7rem 0.9rem; border: 1px solid var(--border-glass); border-radius: 12px;
+  background: var(--bg-display); color: var(--text-primary); font-family: var(--font-main); font-size: 0.95rem;
+}
+.bd-input:focus, .bd-textarea:focus { outline: none; border-color: var(--accent-cyan); }
+.bd-textarea { resize: vertical; min-height: 96px; line-height: 1.55; }
+
+.bd-btn {
+  border: 1px solid var(--border-glass); background: var(--bg-display); color: var(--text-primary);
+  font-family: var(--font-main); font-weight: 700; font-size: 0.92rem; padding: 0.7rem 1.1rem;
+  border-radius: 12px; cursor: pointer; transition: var(--transition-smooth);
+}
+.bd-btn:hover { border-color: var(--border-focus); }
+.bd-btn:disabled { opacity: 0.55; cursor: default; }
+.bd-btn.primary { background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); color: #fff; border-color: transparent; box-shadow: var(--glow-blue); }
+.bd-btn.primary:hover { filter: brightness(1.08); }
+.bd-link { align-self: flex-start; background: none; border: none; color: var(--accent-blue); font-weight: 600; font-size: 0.82rem; cursor: pointer; padding: 0; }
+.bd-link:hover { text-decoration: underline; }
+.bd-msg { font-size: 0.83rem; font-weight: 600; min-height: 1em; color: var(--text-muted); }
+.bd-msg.ok { color: #059669; }
+.bd-msg.err { color: var(--accent-coral); }
+
+.bd-me { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.bd-me-hi { font-size: 1rem; color: var(--text-primary); }
+
+.bd-write { padding: 1.4rem 1.5rem; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+.bd-write h3 { font-size: 1.05rem; font-weight: 800; color: var(--text-primary); }
+.bd-write-foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+
+.bd-list-head { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 1rem; }
+.bd-list-head h3 { font-size: 1.05rem; font-weight: 800; color: var(--text-primary); }
+.bd-count { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); font-family: var(--font-mono); }
+.bd-list { display: flex; flex-direction: column; gap: 0.9rem; }
+.bd-empty { color: var(--text-muted); font-weight: 600; padding: 1.5rem; text-align: center; }
+
+.bd-post { padding: 1.1rem 1.3rem; }
+.bd-post-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.8rem; }
+.bd-post-title { font-size: 1.02rem; font-weight: 800; color: var(--text-primary); word-break: break-word; }
+.bd-del { background: none; border: none; color: var(--text-muted); font-size: 1rem; cursor: pointer; line-height: 1; padding: 2px 6px; border-radius: 6px; flex: none; }
+.bd-del:hover { color: var(--accent-coral); background: color-mix(in srgb, var(--accent-coral) 12%, transparent); }
+.bd-post-meta { display: flex; gap: 0.7rem; margin: 0.35rem 0 0.7rem; font-size: 0.76rem; color: var(--text-muted); }
+.bd-post-author { font-weight: 700; }
+.bd-post-date { font-family: var(--font-mono); }
+.bd-post-body { color: var(--text-primary); line-height: 1.6; font-size: 0.94rem; word-break: break-word; }
+
 @media (max-width: 640px) {
   .pb-hotcold { grid-template-columns: 1fr; }
   .pb-ball { width: 46px; height: 46px; }
   .pb-ball-n { font-size: 1.1rem; }
   .pb-grid { grid-template-columns: repeat(auto-fill, minmax(46px, 1fr)); }
+}
+
+/* ==================== 모바일 컴팩트 — 기능이 한 화면에 쏙 들어오도록 축소 ==================== */
+@media (max-width: 768px) {
+  html { font-size: 15px; }                 /* rem 기반 요소 전체를 비율 축소(줌아웃) */
+  .sidebar { width: 60px; padding: 1.4rem 0.45rem; }
+  .content-wrapper { margin-left: 60px; width: calc(100% - 60px); padding: 1.1rem 1rem 2rem; }
+
+  .section-header { margin-bottom: 1rem; }
+  .section-title { font-size: 1.55rem; }
+  .section-desc { font-size: 0.86rem; line-height: 1.5; }
+  .badge { margin-bottom: 0.5rem; padding: 0.28rem 0.7rem; font-size: 0.68rem; }
+  .glass-panel { border-radius: 16px; }
+
+  /* 홈 히어로: 장식용 코드 카드는 숨겨 도구 카드가 첫 화면에 보이도록 */
+  .hero-container { gap: 1rem; margin-bottom: 1.2rem; }
+  .hero-title { font-size: 1.7rem; }
+  .hero-desc { font-size: 0.88rem; }
+  .hero-visual { display: none; }
+
+  /* iOS 입력 포커스 시 자동 확대 방지 */
+  input, textarea, select { font-size: 16px; }
+
+  /* 로또(파워볼·메가) / 게시판 패널 여백 축소 */
+  .pb-latest, .pb-controls, .pb-hc-card, .pb-freq, .pb-predict, .pb-stats, .pb-recent,
+  .bd-auth, .bd-write, .bd-post { padding: 1rem 1.05rem; }
+  .pb-latest, .pb-controls, .pb-hotcold, .pb-freq, .pb-predict, .pb-stats, .bd-auth, .bd-write { margin-bottom: 0.85rem; }
+  .pb-latest { margin-bottom: 0.85rem; }
+}
+
+@media (max-width: 480px) {
+  html { font-size: 14px; }                 /* 더 작은 화면에서 추가 축소 */
+  .sidebar { width: 52px; padding: 1.2rem 0.35rem; }
+  .content-wrapper { margin-left: 52px; width: calc(100% - 52px); padding: 0.9rem 0.75rem 1.8rem; }
+  .nav-icon { width: 22px; height: 22px; }
+  .section-title { font-size: 1.35rem; }
+
+  /* 로또 볼·히트맵을 더 촘촘하게 */
+  .pb-ball { width: 40px; height: 40px; }
+  .pb-ball-n { font-size: 0.98rem; }
+  .pb-plus { font-size: 1.1rem; margin: 0 0.05rem; }
+  .pb-grid { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 4px; }
+  .pb-cell-n { font-size: 0.82rem; }
+  .pb-cell-c { font-size: 0.55rem; }
+  .pb-cell-r { font-size: 0.5rem; }
+  .pb-hc-ball { min-width: 44px; }
+  .pb-seg-btn { padding: 0.35rem 0.6rem; font-size: 0.8rem; }
+  .pb-stats { grid-template-columns: 1fr 1fr; }
 }

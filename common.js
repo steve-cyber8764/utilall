@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '/timer':              'timer',
       '/powerball':          'powerball',
       '/mega-millions':      'mega',
+      '/board':              'board',
     };
     const activePage = pageMap[path] || 'home';
     document.querySelectorAll('.nav-item[data-page]').forEach(item => {

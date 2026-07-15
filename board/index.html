@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <script>if(location.hostname==='www.utilall.net'){location.replace('https://utilall.net'+location.pathname+location.search+location.hash);}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>무게 변환기 — UtilAll | kg g lb oz 무게 단위 변환</title>
-  <meta name="description" content="mg, g, kg, 톤(t), 온스(oz), 파운드(lb), 스톤(st) 등 무게 단위를 실시간 일괄 변환. 요리·택배·운동에 필요한 무게 계산을 바로 확인하세요.">
-  <meta name="keywords" content="무게 변환기, kg lb 변환, 킬로그램 파운드, 온스 변환, 무게 단위 변환, weight converter">
+  <title>개선사항 게시판 — UtilAll | 회원가입·로그인 후 건의하기</title>
+  <meta name="description" content="UtilAll 개선사항·건의사항 게시판. 이메일로 회원가입하고 로그인하면 서비스 개선 아이디어나 버그를 자유롭게 남길 수 있습니다.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://utilall.net/weight-converter/">
+  <link rel="canonical" href="https://utilall.net/board/">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://utilall.net/weight-converter/">
-  <meta property="og:title" content="무게 변환기 — UtilAll | kg·g·lb·oz 실시간 변환">
-  <meta property="og:description" content="mg, g, kg, 톤, 온스, 파운드, 스톤 등 무게 단위를 실시간 일괄 변환.">
+  <meta property="og:url" content="https://utilall.net/board/">
+  <meta property="og:title" content="개선사항 게시판 — UtilAll">
+  <meta property="og:description" content="회원가입·로그인 후 서비스 개선 아이디어를 남겨보세요.">
   <meta property="og:site_name" content="UtilAll">
+  <meta property="og:image" content="https://utilall.net/og-image.png">
   <meta name="theme-color" content="#d1d7e0" id="meta-theme-color">
   <meta name="google-site-verification" content="wPcD3bWiKcD3S-N029kPnKU0dM68TCHDYXIYeoNPupI">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2316821595071188" crossorigin="anonymous"></script>
@@ -22,14 +22,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="무게 변환기 — UtilAll | kg·g·lb·oz 실시간 변환">
-  <meta name="twitter:description" content="mg, g, kg, 톤, 온스, 파운드, 스톤 등 무게 단위를 실시간 일괄 변환.">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"UtilAll 무게 변환기","url":"https://utilall.net/weight-converter/","description":"mg·g·kg·톤·온스·파운드·스톤 등 무게 단위를 실시간 일괄 변환하는 무료 온라인 도구","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
-  <meta property="og:image" content="https://utilall.net/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:image" content="https://utilall.net/og-image.png">
 </head>
 <body>
   <div class="bg-glow bg-glow-1"></div><div class="bg-glow bg-glow-2"></div><div class="bg-glow bg-glow-3"></div>
@@ -119,44 +111,42 @@
       </div>
     </aside>
     <main class="content-wrapper">
-      <section id="section-weight" class="tab-section active">
+      <section id="section-board" class="tab-section active">
         <div class="section-header">
-          <div class="badge">CONVERSION TOOL</div>
-          <h1 class="section-title" data-i18n="weight.title">무게 변환기</h1>
-          <p class="section-desc" data-i18n="weight.desc">무게(질량) 값을 입력하면 미터법 및 야드파운드법 단위로 즉시 일괄 변환됩니다.</p>
+          <div class="badge">COMMUNITY</div>
+          <h1 class="section-title" data-i18n="bd.title">개선사항 게시판</h1>
+          <p class="section-desc" data-i18n="bd.desc">서비스 개선 아이디어나 버그, 원하는 기능을 자유롭게 남겨주세요. 글은 누구나 볼 수 있고, 작성은 로그인 후 가능합니다.</p>
         </div>
-        <div class="length-layout">
-          <div class="length-input-panel glass-panel">
-            <div class="input-row">
-              <div class="length-val-field"><label for="weight-input-val" data-i18n="length.valLabel">값 입력</label><input type="number" id="weight-input-val" value="1" step="any"></div>
-              <div class="length-unit-field">
-                <label for="weight-input-unit" data-i18n="length.unitLabel">입력 단위</label>
-                <select id="weight-input-unit">
-                  <option value="mg" data-i18n="unit.mg.long">밀리그램 (mg)</option>
-                  <option value="g" data-i18n="unit.g.long">그램 (g)</option>
-                  <option value="kg" selected data-i18n="unit.kg.long">킬로그램 (kg)</option>
-                  <option value="t" data-i18n="unit.t.long">톤 (t)</option>
-                  <option value="oz" data-i18n="unit.oz.long">온스 (oz)</option>
-                  <option value="lb" data-i18n="unit.lb.long">파운드 (lb)</option>
-                  <option value="st" data-i18n="unit.st.long">스톤 (st)</option>
-                </select>
-              </div>
-            </div>
+
+        <!-- 인증 결과 배너 -->
+        <div class="bd-banner" id="bd-banner" style="display:none"></div>
+
+        <!-- 인증 영역 (로그인/회원가입 or 로그인 상태) -->
+        <div class="bd-auth glass-panel" id="bd-auth"></div>
+
+        <!-- 글쓰기 (로그인 시에만) -->
+        <div class="bd-write glass-panel" id="bd-write" style="display:none">
+          <h3 data-i18n="bd.writeTitle">새 건의 작성</h3>
+          <input type="text" id="bd-post-title" class="bd-input" maxlength="120" data-i18n-ph="bd.phTitle" placeholder="제목">
+          <textarea id="bd-post-body" class="bd-textarea" maxlength="5000" rows="5" data-i18n-ph="bd.phBody" placeholder="개선 아이디어를 자세히 적어주세요."></textarea>
+          <div class="bd-write-foot">
+            <span class="bd-msg" id="bd-post-msg"></span>
+            <button class="bd-btn primary" id="bd-post-btn" data-i18n="bd.submit">등록하기</button>
           </div>
-          <div class="length-grid-container">
-            <div class="length-result-card" data-unit="mg"><div class="result-label" data-i18n="unit.mg.long">밀리그램 (mg)</div><div class="result-val-wrap"><span class="result-val" id="wt-res-mg">—</span><span class="result-unit">mg</span></div></div>
-            <div class="length-result-card" data-unit="g"><div class="result-label" data-i18n="unit.g.long">그램 (g)</div><div class="result-val-wrap"><span class="result-val" id="wt-res-g">—</span><span class="result-unit">g</span></div></div>
-            <div class="length-result-card" data-unit="kg"><div class="result-label" data-i18n="unit.kg.long">킬로그램 (kg)</div><div class="result-val-wrap"><span class="result-val" id="wt-res-kg">—</span><span class="result-unit">kg</span></div></div>
-            <div class="length-result-card" data-unit="t"><div class="result-label" data-i18n="unit.t.long">톤 (t)</div><div class="result-val-wrap"><span class="result-val" id="wt-res-t">—</span><span class="result-unit">t</span></div></div>
-            <div class="length-result-card" data-unit="oz"><div class="result-label" data-i18n="unit.oz.long">온스 (oz)</div><div class="result-val-wrap"><span class="result-val" id="wt-res-oz">—</span><span class="result-unit">oz</span></div></div>
-            <div class="length-result-card" data-unit="lb"><div class="result-label" data-i18n="unit.lb.long">파운드 (lb)</div><div class="result-val-wrap"><span class="result-val" id="wt-res-lb">—</span><span class="result-unit">lb</span></div></div>
-            <div class="length-result-card" data-unit="st"><div class="result-label" data-i18n="unit.st.long">스톤 (st)</div><div class="result-val-wrap"><span class="result-val" id="wt-res-st">—</span><span class="result-unit">st</span></div></div>
-          </div>
+        </div>
+
+        <!-- 목록 -->
+        <div class="bd-list-head">
+          <h3 data-i18n="bd.listTitle">건의 목록</h3>
+          <span class="bd-count" id="bd-list-count"></span>
+        </div>
+        <div class="bd-list" id="bd-list">
+          <div class="pb-loading" data-i18n="bd.loading">불러오는 중…</div>
         </div>
       </section>
       <div class="ad-container"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2316821595071188" data-ad-slot="1684982293" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
     </main>
   </div>
-  <script src="../i18n.js"></script><script src="../common.js"></script><script src="weight.js"></script>
+  <script src="../i18n.js"></script><script src="../common.js"></script><script src="board.js"></script>
 </body>
 </html>
