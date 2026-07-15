@@ -5,7 +5,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const $ = (id) => document.getElementById(id);
   const t = (k) => (window.I18N && window.I18N.t ? window.I18N.t(k) : k);
-  const applyI18n = () => { if (window.I18N && window.I18N.applyI18n) window.I18N.applyI18n(); };
   const lang = () => (window.I18N && window.I18N.lang) || 'ko';
 
   const state = { user: null, posts: [] };
@@ -43,37 +42,37 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── 인증 영역 렌더 ── */
   function renderAuth() {
     const box = $('bd-auth');
+    // 주입 콘텐츠는 t()로 직접 번역 — applyI18n()을 부르면 langchange가 재발생해 무한 루프가 됨
     if (state.user) {
       const who = state.user.name || state.user.email;
       box.innerHTML =
         `<div class="bd-me">
-           <span class="bd-me-hi"><b>${esc(who)}</b><span data-i18n="bd.welcome"> 님, 환영합니다</span></span>
-           <button class="bd-btn" data-action="logout" data-i18n="bd.logout">로그아웃</button>
+           <span class="bd-me-hi"><b>${esc(who)}</b>${esc(t('bd.welcome'))}</span>
+           <button class="bd-btn" data-action="logout">${esc(t('bd.logout'))}</button>
          </div>`;
       $('bd-write').style.display = '';
     } else {
       box.innerHTML =
         `<div class="bd-tabs">
-           <button class="bd-tab active" data-tab="login" data-i18n="bd.tabLogin">로그인</button>
-           <button class="bd-tab" data-tab="signup" data-i18n="bd.tabSignup">회원가입</button>
+           <button class="bd-tab active" data-tab="login">${esc(t('bd.tabLogin'))}</button>
+           <button class="bd-tab" data-tab="signup">${esc(t('bd.tabSignup'))}</button>
          </div>
          <form class="bd-form" data-form="login">
-           <input type="email" name="email" class="bd-input" data-i18n-ph="bd.phEmail" placeholder="이메일" autocomplete="email" required>
-           <input type="password" name="password" class="bd-input" data-i18n-ph="bd.phPassword" placeholder="비밀번호" autocomplete="current-password" required>
-           <button type="submit" class="bd-btn primary" data-i18n="bd.login">로그인</button>
-           <button type="button" class="bd-link" data-action="resend" data-i18n="bd.resend">인증메일 재발송</button>
+           <input type="email" name="email" class="bd-input" placeholder="${esc(t('bd.phEmail'))}" autocomplete="email" required>
+           <input type="password" name="password" class="bd-input" placeholder="${esc(t('bd.phPassword'))}" autocomplete="current-password" required>
+           <button type="submit" class="bd-btn primary">${esc(t('bd.login'))}</button>
+           <button type="button" class="bd-link" data-action="resend">${esc(t('bd.resend'))}</button>
            <div class="bd-msg" data-msg="login"></div>
          </form>
          <form class="bd-form" data-form="signup" style="display:none">
-           <input type="email" name="email" class="bd-input" data-i18n-ph="bd.phEmail" placeholder="이메일" autocomplete="email" required>
-           <input type="password" name="password" class="bd-input" data-i18n-ph="bd.phPassword8" placeholder="비밀번호 (8자 이상)" autocomplete="new-password" required>
-           <input type="text" name="name" class="bd-input" data-i18n-ph="bd.phName" placeholder="닉네임 (선택)" autocomplete="nickname" maxlength="40">
-           <button type="submit" class="bd-btn primary" data-i18n="bd.signup">가입하기</button>
+           <input type="email" name="email" class="bd-input" placeholder="${esc(t('bd.phEmail'))}" autocomplete="email" required>
+           <input type="password" name="password" class="bd-input" placeholder="${esc(t('bd.phPassword8'))}" autocomplete="new-password" required>
+           <input type="text" name="name" class="bd-input" placeholder="${esc(t('bd.phName'))}" autocomplete="nickname" maxlength="40">
+           <button type="submit" class="bd-btn primary">${esc(t('bd.signup'))}</button>
            <div class="bd-msg" data-msg="signup"></div>
          </form>`;
       $('bd-write').style.display = 'none';
     }
-    applyI18n();
   }
 
   function switchTab(tab) {
@@ -91,8 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderPosts() {
     const box = $('bd-list');
     if (!state.posts.length) {
-      box.innerHTML = `<div class="bd-empty" data-i18n="bd.empty">아직 등록된 건의가 없습니다. 첫 글을 남겨보세요!</div>`;
-      applyI18n();
+      box.innerHTML = `<div class="bd-empty">${esc(t('bd.empty'))}</div>`;
     } else {
       box.innerHTML = state.posts.map(p =>
         `<article class="bd-post glass-panel">
