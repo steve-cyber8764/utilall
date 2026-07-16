@@ -172,4 +172,57 @@ router.delete('/posts/:id', requireDb, async (req, res) => {
   }
 });
 
+/* ── 마이넘버 (저장된 번호) ── */
+const GAMES = {
+  powerball: { whiteMax: 69, specialMax: 26 },
+  mega: { whiteMax: 70, specialMax: 24 },
+};
+function mapSaved(r) {
+  return {
+    id: r.id, game: r.game,
+    white: String(r.white).split(',').map(n => parseInt(n, 10)),
+    special: r.special, createdAt: r.created_at,
+  };
+}
+
+router.get('/mynumbers', requireDb, async (req, res) => {
+  if (!req.user) return res.status(401).json({ error: 'login_required' });
+  const game = req.query.game === 'mega' ? 'mega' : 'powerball';
+  try {
+    const rows = await store.listSaved(req.user.id, game);
+    res.set('Cache-Control', 'no-store');
+    res.json({ saved: rows.map(mapSaved) });
+  } catch (e) { console.error('[mynumbers:list]', e.message); res.status(500).json({ error: 'server_error' }); }
+});
+
+router.post('/mynumbers', requireDb, async (req, res) => {
+  if (!req.user) return res.status(401).json({ error: 'login_required' });
+  const game = GAMES[req.body.game] ? req.body.game : null;
+  if (!game) return res.status(400).json({ error: 'invalid_game' });
+  const cfg = GAMES[game];
+  const white = Array.isArray(req.body.white) ? req.body.white.map(n => parseInt(n, 10)) : [];
+  const special = parseInt(req.body.special, 10);
+  if (white.length !== 5 || new Set(white).size !== 5 ||
+      white.some(n => !(n >= 1 && n <= cfg.whiteMax)) || !(special >= 1 && special <= cfg.specialMax)) {
+    return res.status(400).json({ error: 'invalid_numbers' });
+  }
+  if (limited('save:' + req.user.id, 100, 60 * 60 * 1000)) return res.status(429).json({ error: 'rate_limited' });
+  try {
+    if (await store.countSaved(req.user.id, game) >= 100) return res.status(400).json({ error: 'too_many' });
+    const row = await store.createSaved(req.user.id, game, white.sort((a, b) => a - b).join(','), special);
+    res.json({ saved: mapSaved(row) });
+  } catch (e) { console.error('[mynumbers:create]', e.message); res.status(500).json({ error: 'server_error' }); }
+});
+
+router.delete('/mynumbers/:id', requireDb, async (req, res) => {
+  if (!req.user) return res.status(401).json({ error: 'login_required' });
+  try {
+    const row = await store.getSaved(req.params.id);
+    if (!row) return res.status(404).json({ error: 'not_found' });
+    if (String(row.user_id) !== String(req.user.id)) return res.status(403).json({ error: 'forbidden' });
+    await store.deleteSaved(req.params.id);
+    res.json({ ok: true });
+  } catch (e) { console.error('[mynumbers:delete]', e.message); res.status(500).json({ error: 'server_error' }); }
+});
+
 module.exports = router;

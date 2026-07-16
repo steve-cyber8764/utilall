@@ -62,6 +62,15 @@ async function migrate() {
       body TEXT NOT NULL,
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     )`);
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS saved_numbers (
+      id BIGSERIAL PRIMARY KEY,
+      user_id BIGINT NOT NULL,
+      game TEXT NOT NULL,
+      white TEXT NOT NULL,
+      special INT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )`);
 }
 
 function q(text, params) {

@@ -104,10 +104,36 @@ async function deletePost(id) {
   await q('DELETE FROM posts WHERE id = $1', [id]);
 }
 
+/* ── saved_numbers (마이넘버) ── */
+async function listSaved(userId, game) {
+  const r = await q(
+    'SELECT id, game, white, special, created_at FROM saved_numbers WHERE user_id = $1 AND game = $2 ORDER BY id DESC LIMIT 200',
+    [userId, game]);
+  return r.rows;
+}
+async function countSaved(userId, game) {
+  const r = await q('SELECT COUNT(*)::int AS n FROM saved_numbers WHERE user_id = $1 AND game = $2', [userId, game]);
+  return r.rows[0] ? r.rows[0].n : 0;
+}
+async function createSaved(userId, game, whiteCsv, special) {
+  const r = await q(
+    'INSERT INTO saved_numbers (user_id, game, white, special) VALUES ($1,$2,$3,$4) RETURNING id, game, white, special, created_at',
+    [userId, game, whiteCsv, special]);
+  return r.rows[0];
+}
+async function getSaved(id) {
+  const r = await q('SELECT * FROM saved_numbers WHERE id = $1', [id]);
+  return r.rows[0] || null;
+}
+async function deleteSaved(id) {
+  await q('DELETE FROM saved_numbers WHERE id = $1', [id]);
+}
+
 module.exports = {
   hashPassword, verifyPassword,
   createUser, getUserByEmail, getUserById, setVerified,
   createEmailToken, consumeEmailToken,
   createSession, getSessionUser, deleteSession,
   listPosts, createPost, getPost, deletePost,
+  listSaved, countSaved, createSaved, getSaved, deleteSaved,
 };

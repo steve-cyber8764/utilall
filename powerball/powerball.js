@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fmax: null,   // 출현 횟수 필터 최대
     jackpot: null, // 예상 당첨금 {jackpot, cash}
     usdkrw: null,  // USD→KRW 환율
+    user: null,    // 로그인 사용자
+    saved: [],     // 마이넘버 목록
     loaded: false,
   };
 
@@ -308,7 +310,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function setRow(set, idx, show) {
     const balls = set.white.map(n => ball(n)).join('') + '<span class="pb-plus">+</span>' + ball(set.pb, 'pb');
-    return `<div class="pb-gen-set">${setLabel(idx, show)}<div class="pb-gen-set-balls">${balls}</div></div>`;
+    const saveBtn = state.user ? `<button class="pb-save" data-save="${idx}" title="${tr('pb.saveBtn')}">💾</button>` : '';
+    return `<div class="pb-gen-set">${setLabel(idx, show)}<div class="pb-gen-set-balls">${balls}${saveBtn}</div></div>`;
   }
   function blankRow(idx, show) {
     const balls = '<div class="pb-ball empty"></div>'.repeat(WHITE_PICK)
@@ -336,6 +339,69 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let g = 0; g < state.genCount; g++) arr.push(makeSet(c));
     state.sets = arr;
     renderGenOut();
+  }
+
+  /* ── 마이넘버 (로그인 저장) ─────────────────────────── */
+  const errMsg = (code) => {
+    const v = tr('pb.err.' + code);
+    return v === 'pb.err.' + code ? tr('pb.err.server_error') : v;
+  };
+
+  async function loadAuth() {
+    try {
+      const res = await fetch('/api/me', { credentials: 'same-origin' });
+      state.user = (await res.json()).user || null;
+    } catch (e) { state.user = null; }
+    if (state.user) await loadSaved();
+    renderMyNumbers();
+    renderGenOut(); // 로그인 상태에 따라 저장 버튼 표시
+  }
+  async function loadSaved() {
+    try {
+      const res = await fetch('/api/mynumbers?game=powerball', { credentials: 'same-origin' });
+      if (res.ok) state.saved = (await res.json()).saved || [];
+    } catch (e) { /* noop */ }
+  }
+
+  async function saveSet(idx, btn) {
+    const set = state.sets[idx];
+    if (!set || !state.user) return;
+    if (btn) btn.disabled = true;
+    try {
+      const res = await fetch('/api/mynumbers', {
+        method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ game: 'powerball', white: set.white, special: set.pb }),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok && d.saved) {
+        state.saved.unshift(d.saved);
+        renderMyNumbers();
+        if (btn) { btn.textContent = '✓'; btn.classList.add('done'); btn.title = tr('pb.saved'); }
+      } else { if (btn) btn.disabled = false; alert(errMsg(d.error)); }
+    } catch (e) { if (btn) btn.disabled = false; }
+  }
+
+  async function deleteSaved(id) {
+    try {
+      const res = await fetch('/api/mynumbers/' + encodeURIComponent(id), { method: 'DELETE', credentials: 'same-origin' });
+      if (res.ok) { state.saved = state.saved.filter(s => String(s.id) !== String(id)); renderMyNumbers(); }
+    } catch (e) { /* noop */ }
+  }
+
+  function renderMyNumbers() {
+    const el = $('pb-mynumbers');
+    if (!el) return;
+    if (!state.user) {
+      el.innerHTML = `<div class="pb-mine-hint">${tr('pb.loginToSave')} <a href="/board/">${tr('pb.loginLink')}</a></div>`;
+      return;
+    }
+    const rows = state.saved.map(s => {
+      const balls = s.white.map(n => ball(n)).join('') + '<span class="pb-plus">+</span>' + ball(s.special, 'pb');
+      return `<div class="pb-mine-row"><div class="pb-gen-set-balls">${balls}</div><button class="pb-mine-del" data-del="${s.id}" title="${tr('pb.deleteNum')}">✕</button></div>`;
+    }).join('');
+    el.innerHTML =
+      `<div class="pb-mine-head"><h3>${tr('pb.myNumbers')}</h3><span class="pb-mine-count">${state.saved.length ? '(' + state.saved.length + ')' : ''}</span></div>`
+      + (state.saved.length ? `<div class="pb-mine-list">${rows}</div>` : `<div class="pb-mine-empty">${tr('pb.myNumbersEmpty')}</div>`);
   }
 
   /* ── 이벤트 ─────────────────────────────────────────── */
@@ -386,9 +452,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $('pb-gen-btn').addEventListener('click', generate);
 
+  $('pb-gen-out').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-save]'); if (!b || b.disabled) return;
+    saveSet(parseInt(b.getAttribute('data-save'), 10), b);
+  });
+  $('pb-mynumbers').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-del]'); if (!b) return;
+    if (confirm(tr('pb.confirmDelNum'))) deleteSaved(b.getAttribute('data-del'));
+  });
+
   window.addEventListener('langchange', () => {
     if (state.loaded) { renderLatest(); renderRecent(); recompute(); renderGenOut(); renderJackpot(); }
+    renderMyNumbers();
   });
 
   load();
+  loadAuth();
 });
