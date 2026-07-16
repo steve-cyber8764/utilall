@@ -12,6 +12,7 @@ const fs = require('fs');
 const path = require('path');
 const db = require('./srv/db');
 const apiRoutes = require('./srv/routes');
+const { getJackpots } = require('./srv/jackpots');
 
 const app = express();
 app.set('trust proxy', 1); // Railway 프록시 뒤 — req.protocol/req.ip 정확히 인식
@@ -56,6 +57,13 @@ app.post('/api/visit', (req, res) => {
   writeCount(total);
   res.set('Cache-Control', 'no-store');
   res.json({ total });
+});
+
+// --- 복권 예상 당첨금(잭팟) + 환율 ---
+app.get('/api/jackpots', async (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  try { res.json(await getJackpots()); }
+  catch (e) { res.json({ powerball: null, mega: null, usdkrw: null }); }
 });
 
 // --- 회원(이메일 인증) + 게시판 API ---

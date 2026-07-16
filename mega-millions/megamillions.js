@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     sets: [],     // 생성된 게임 결과 보존 [{white:[5], mega}] — '번호 생성' 때만 갱신
     fmin: null,   // 출현 횟수 필터 최소
     fmax: null,   // 출현 횟수 필터 최대
+    jackpot: null, // 예상 당첨금 {jackpot, cash}
+    usdkrw: null,  // USD→KRW 환율
     loaded: false,
   };
 
@@ -35,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderLatest();
       renderRecent();
       recompute();
+      loadJackpot();
     } catch (e) {
       showError();
     }
@@ -81,6 +84,52 @@ document.addEventListener('DOMContentLoaded', () => {
       return `${mn[+m - 1]} ${+day}, ${y}`;
     }
     return `${y}년 ${+m}월 ${+day}일`;
+  }
+
+  /* ── 예상 당첨금(잭팟) ──────────────────────────────── */
+  function fmtUsd(n) {
+    if (n == null) return '';
+    if (n >= 1e9) return '$' + parseFloat((n / 1e9).toFixed(2)) + ' Billion';
+    if (n >= 1e6) return '$' + parseFloat((n / 1e6).toFixed(1)) + ' Million';
+    return '$' + Math.round(n).toLocaleString();
+  }
+  function fmtKrw(n) {
+    n = Math.round(n);
+    const jo = Math.floor(n / 1e12), eok = Math.floor((n % 1e12) / 1e8);
+    const p = [];
+    if (jo) p.push(jo.toLocaleString() + '조');
+    if (eok) p.push(eok.toLocaleString() + '억');
+    if (!p.length) p.push(Math.max(1, Math.round(n / 1e4)).toLocaleString() + '만');
+    return p.join(' ') + ' 원';
+  }
+  async function loadJackpot() {
+    try {
+      const res = await fetch('/api/jackpots');
+      if (!res.ok) return;
+      const d = await res.json();
+      state.jackpot = d.mega;
+      state.usdkrw = d.usdkrw;
+      renderJackpot();
+    } catch (e) { /* 백엔드 없거나 실패 시 조용히 숨김 */ }
+  }
+  function renderJackpot() {
+    const el = $('mm-jackpot');
+    if (!el) return;
+    const j = state.jackpot;
+    if (!j || !j.jackpot) { el.innerHTML = ''; return; }
+    const rate = state.usdkrw;
+    const usdMain = fmtUsd(j.jackpot), usdCash = j.cash ? fmtUsd(j.cash) : '';
+    let html = `<div class="pb-jp-label">💰 ${tr('mm.jackpotLabel')}</div>`;
+    if (isEn() || !rate) {
+      html += `<div class="pb-jp-amount">${usdMain}</div>`;
+      if (usdCash) html += `<div class="pb-jp-cash">${tr('mm.jackpotCash')} ${usdCash}</div>`;
+    } else {
+      html += `<div class="pb-jp-amount">${tr('mm.approx')} ${fmtKrw(j.jackpot * rate)}</div>`;
+      html += `<div class="pb-jp-usd">${usdMain}</div>`;
+      if (j.cash) html += `<div class="pb-jp-cash">${tr('mm.jackpotCash')} ${tr('mm.approx')} ${fmtKrw(j.cash * rate)} <span class="pb-jp-usd2">(${usdCash})</span></div>`;
+      html += `<div class="pb-jp-rate">${tr('mm.jackpotRate').replace('{r}', rate.toLocaleString(undefined, { maximumFractionDigits: 2 }))}</div>`;
+    }
+    el.innerHTML = html;
   }
 
   /* ── 빈도 계산 ───────────────────────────────────────── */
@@ -333,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('mm-gen-btn').addEventListener('click', generate);
 
   window.addEventListener('langchange', () => {
-    if (state.loaded) { renderLatest(); renderRecent(); recompute(); renderGenOut(); }
+    if (state.loaded) { renderLatest(); renderRecent(); recompute(); renderGenOut(); renderJackpot(); }
   });
 
   load();

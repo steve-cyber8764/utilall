@@ -1853,6 +1853,21 @@ body.dark-theme .theme-toggle-btn:hover {
 .pb-loading, .pb-error { color: var(--text-muted); font-weight: 600; padding: 0.8rem 0; }
 .pb-error { color: var(--accent-coral); }
 
+/* 예상 당첨금(잭팟) */
+.pb-jackpot { margin-top: 1.1rem; padding-top: 1rem; border-top: 1px dashed var(--border-glass); }
+.pb-jackpot:empty { display: none; }
+.pb-jp-label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.02em; }
+.pb-jp-amount {
+  font-size: 1.55rem; font-weight: 800; margin-top: 0.2rem; line-height: 1.15;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+#mm-jackpot .pb-jp-amount { background: linear-gradient(135deg, #e0a010, #2563eb); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.pb-jp-usd { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); font-family: var(--font-mono); margin-top: 0.15rem; }
+.pb-jp-cash { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.4rem; }
+.pb-jp-usd2 { font-family: var(--font-mono); }
+.pb-jp-rate { font-size: 0.72rem; color: var(--text-muted); opacity: 0.85; margin-top: 0.45rem; }
+
 .pb-controls { padding: 1.1rem 1.5rem; margin-bottom: 1.25rem; }
 .pb-control-group { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
 .pb-control-label { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); }
