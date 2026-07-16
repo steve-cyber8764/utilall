@@ -2000,6 +2000,27 @@ body.dark-theme .theme-toggle-btn:hover {
 .pb-mine-del { background: none; border: none; color: var(--text-muted); font-size: 0.95rem; cursor: pointer; padding: 2px 8px; border-radius: 8px; flex: none; }
 .pb-mine-del:hover { color: var(--accent-coral); background: color-mix(in srgb, var(--accent-coral) 12%, transparent); }
 
+/* 로그인/로그아웃 바 (파워볼·메가밀리언 상단) */
+.pb-authbar { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 1.1rem; }
+.pb-authbar:empty { display: none; }
+.pb-auth-login { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
+.pb-auth-input {
+  padding: 0.5rem 0.7rem; border: 1px solid var(--border-glass); border-radius: 10px;
+  background: var(--bg-card); color: var(--text-primary); font-family: var(--font-main); font-size: 0.88rem; width: 150px;
+}
+.pb-auth-input:focus { outline: none; border-color: var(--accent-cyan); }
+.pb-auth-btn {
+  border: 1px solid var(--border-glass); background: var(--bg-card); color: var(--text-primary);
+  font-family: var(--font-main); font-weight: 700; font-size: 0.85rem; padding: 0.5rem 0.95rem;
+  border-radius: 10px; cursor: pointer; transition: var(--transition-smooth);
+}
+.pb-auth-btn:hover { border-color: var(--border-focus); }
+.pb-auth-btn.primary { background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); color: #fff; border-color: transparent; }
+.pb-auth-btn:disabled { opacity: 0.6; cursor: default; }
+.pb-auth-link { font-size: 0.82rem; color: var(--accent-blue); font-weight: 700; }
+.pb-auth-user { font-size: 0.92rem; font-weight: 700; color: var(--text-primary); margin-right: 0.6rem; }
+.pb-auth-msg { font-size: 0.78rem; color: var(--accent-coral); font-weight: 600; width: 100%; text-align: right; }
+
 .pb-stats { padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
 .pb-stat { display: flex; flex-direction: column; gap: 4px; }
 .pb-stat-k { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }

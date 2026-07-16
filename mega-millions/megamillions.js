@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ = (id) => document.getElementById(id);
   const tr = (k) => (window.I18N && window.I18N.t ? window.I18N.t(k) : k);
   const isEn = () => !!(window.I18N && window.I18N.lang === 'en');
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   const WHITE_MAX = 70, MEGA_MAX = 24, WHITE_PICK = 5;
   const API = 'https://data.ny.gov/resource/5xaw-6ayf.json?$limit=5000&$order=draw_date%20DESC';
@@ -348,8 +349,53 @@ document.addEventListener('DOMContentLoaded', () => {
       state.user = (await res.json()).user || null;
     } catch (e) { state.user = null; }
     if (state.user) await loadSaved();
+    renderAuthBar();
     renderMyNumbers();
     renderGenOut();
+  }
+
+  function renderAuthBar() {
+    const el = $('mm-authbar');
+    if (!el) return;
+    if (state.user) {
+      el.innerHTML =
+        `<span class="pb-auth-user">👤 ${esc(state.user.name || state.user.email)}</span>` +
+        `<button class="pb-auth-btn" data-auth="logout">${tr('mm.logout')}</button>`;
+    } else {
+      el.innerHTML =
+        `<form class="pb-auth-login" data-auth="loginform">
+           <input type="email" name="email" class="pb-auth-input" placeholder="${esc(tr('mm.emailPh'))}" autocomplete="email" required>
+           <input type="password" name="password" class="pb-auth-input" placeholder="${esc(tr('mm.pwPh'))}" autocomplete="current-password" required>
+           <button type="submit" class="pb-auth-btn primary">${tr('mm.login')}</button>
+           <a class="pb-auth-link" href="/board/">${tr('mm.signupLink')}</a>
+           <span class="pb-auth-msg" id="mm-auth-msg"></span>
+         </form>`;
+    }
+  }
+
+  async function doLogin(form) {
+    const email = (form.querySelector('input[name="email"]') || {}).value.trim();
+    const password = (form.querySelector('input[name="password"]') || {}).value;
+    const btn = form.querySelector('button[type="submit"]');
+    const msg = $('mm-auth-msg');
+    btn.disabled = true;
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (res.ok && d.user) {
+        state.user = d.user;
+        await loadSaved();
+        renderAuthBar(); renderMyNumbers(); renderGenOut();
+      } else { if (msg) msg.textContent = errMsg(d.error); btn.disabled = false; }
+    } catch (e) { btn.disabled = false; }
+  }
+  async function doLogout() {
+    try { await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' }); } catch (e) { /* noop */ }
+    state.user = null; state.saved = [];
+    renderAuthBar(); renderMyNumbers(); renderGenOut();
   }
   async function loadSaved() {
     try {
@@ -387,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const el = $('mm-mynumbers');
     if (!el) return;
     if (!state.user) {
-      el.innerHTML = `<div class="pb-mine-hint">${tr('mm.loginToSave')} <a href="/board/">${tr('mm.loginLink')}</a></div>`;
+      el.innerHTML = `<div class="pb-mine-hint">${tr('mm.loginToSave')}</div>`;
       return;
     }
     const rows = state.saved.map(s => {
@@ -456,9 +502,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (confirm(tr('mm.confirmDelNum'))) deleteSaved(b.getAttribute('data-del'));
   });
 
+  $('mm-authbar').addEventListener('submit', (e) => {
+    const f = e.target.closest('form[data-auth="loginform"]'); if (!f) return;
+    e.preventDefault(); doLogin(f);
+  });
+  $('mm-authbar').addEventListener('click', (e) => {
+    if (e.target.closest('[data-auth="logout"]')) doLogout();
+  });
+
   window.addEventListener('langchange', () => {
     if (state.loaded) { renderLatest(); renderRecent(); recompute(); renderGenOut(); renderJackpot(); }
-    renderMyNumbers();
+    renderAuthBar(); renderMyNumbers();
   });
 
   load();
