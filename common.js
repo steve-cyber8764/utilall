@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '/':                   'home',
       '/calculator':         'calc',
       '/loan-calculator':   'loan',
+      '/bmi-calculator':     'bmi',
       '/base-converter':     'base',
       '/area-converter':     'area',
       '/length-converter':   'length',

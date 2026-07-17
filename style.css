@@ -2164,3 +2164,34 @@ body.dark-theme .theme-toggle-btn:hover {
   .pb-seg-btn { padding: 0.35rem 0.6rem; font-size: 0.8rem; }
   .pb-stats { grid-template-columns: 1fr 1fr; }
 }
+
+/* ==================== 비만도(BMI) 계산기 ==================== */
+.bmi-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.5rem; }
+.bmi-input-panel, .bmi-result { padding: 1.6rem 1.7rem; }
+.bmi-field { margin-bottom: 1.2rem; }
+.bmi-field > label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem; }
+.bmi-input-group { display: flex; align-items: center; gap: 0.5rem; background: var(--bg-display); border: 1px solid var(--border-glass); border-radius: 12px; padding: 0 0.9rem; }
+.bmi-input-group:focus-within { border-color: var(--accent-cyan); }
+.bmi-input-group input { flex: 1; border: none; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; padding: 0.7rem 0; width: 100%; outline: none; }
+.bmi-unit { font-size: 0.9rem; font-weight: 700; color: var(--text-muted); flex: none; }
+.bmi-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+.bmi-std-note { font-size: 0.76rem; color: var(--text-muted); margin-top: 0.4rem; }
+
+.bmi-primary { text-align: center; padding-bottom: 1.3rem; border-bottom: 1px solid var(--border-glass); margin-bottom: 1.4rem; }
+.bmi-primary-label { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); }
+.bmi-primary-val { font-size: 3.2rem; font-weight: 900; line-height: 1.05; font-family: var(--font-mono); color: var(--text-primary); margin: 0.2rem 0 0.6rem; }
+.bmi-cat-badge { display: inline-block; padding: 0.35rem 1.05rem; border-radius: 20px; font-weight: 800; font-size: 0.95rem; background: var(--bg-display); color: var(--text-primary); }
+
+.bmi-gauge { position: relative; margin-bottom: 1.7rem; }
+.bmi-gauge-track { position: relative; display: flex; height: 14px; border-radius: 7px; overflow: hidden; }
+.bmi-zone { height: 100%; }
+.bmi-gauge-marker { position: absolute; top: -4px; width: 4px; height: 22px; background: var(--text-primary); border-radius: 2px; transform: translateX(-50%); box-shadow: 0 0 0 2px var(--bg-card); transition: left 0.3s ease; }
+.bmi-gauge-scale { position: relative; height: 1.1rem; margin-top: 0.4rem; }
+.bmi-tick { position: absolute; transform: translateX(-50%); font-size: 0.68rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+.bmi-stats { display: flex; flex-direction: column; gap: 0.9rem; }
+.bmi-stat { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.bmi-stat-k { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+.bmi-stat-v { font-size: 0.98rem; font-weight: 800; color: var(--text-primary); font-family: var(--font-mono); text-align: right; }
+
+@media (max-width: 768px) { .bmi-layout { grid-template-columns: 1fr; } .bmi-primary-val { font-size: 2.6rem; } }
