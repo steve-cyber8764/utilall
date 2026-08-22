@@ -2195,3 +2195,29 @@ body.dark-theme .theme-toggle-btn:hover {
 .bmi-stat-v { font-size: 0.98rem; font-weight: 800; color: var(--text-primary); font-family: var(--font-mono); text-align: right; }
 
 @media (max-width: 768px) { .bmi-layout { grid-template-columns: 1fr; } .bmi-primary-val { font-size: 2.6rem; } }
+
+/* ==================== D-day 계산기 ==================== */
+.dday-panel { margin-bottom: 0.4rem; }
+.dday-check { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); cursor: pointer; margin-top: 0.3rem; }
+.dday-check input { width: 16px; height: 16px; accent-color: var(--accent-cyan); }
+.dday-quick { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.7rem; }
+.dday-quick-btn { border: 1px solid var(--border-glass); background: var(--bg-display); color: var(--text-muted); font-family: var(--font-main); font-weight: 700; font-size: 0.8rem; padding: 0.4rem 0.7rem; border-radius: 9px; cursor: pointer; transition: var(--transition-smooth); }
+.dday-quick-btn:hover { color: var(--text-primary); border-color: var(--border-focus); }
+
+.dday-empty { color: var(--text-muted); font-weight: 600; padding: 1.5rem 0; text-align: center; }
+.dday-primary { text-align: center; padding-bottom: 1.3rem; border-bottom: 1px solid var(--border-glass); margin-bottom: 1.3rem; }
+.dday-primary-val { font-size: 3.4rem; font-weight: 900; line-height: 1.05; font-family: var(--font-mono); color: var(--text-primary); letter-spacing: -0.01em; }
+.dday-primary.future .dday-primary-val { background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.dday-primary.today .dday-primary-val { background: linear-gradient(135deg, #10b981, #0891b2); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.dday-primary.past .dday-primary-val { color: var(--text-muted); }
+.dday-primary-sub { font-size: 0.95rem; font-weight: 700; color: var(--text-muted); margin-top: 0.35rem; }
+.dday-note-inline { color: var(--accent-cyan); font-weight: 700; }
+
+.dday-mile-head { font-size: 0.9rem; font-weight: 800; color: var(--text-primary); margin: 1.4rem 0 0.8rem; }
+.dday-mile-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.dday-mile { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.6rem; padding: 0.6rem 0.8rem; border-radius: 10px; background: var(--bg-display); border: 1px solid var(--border-glass); }
+.dday-mile-name { font-weight: 800; color: var(--text-primary); font-size: 0.9rem; min-width: 3.5rem; }
+.dday-mile-date { font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-mono); }
+.dday-mile-dday { font-weight: 800; font-size: 0.85rem; color: var(--accent-blue); font-family: var(--font-mono); }
+
+@media (max-width: 768px) { .dday-primary-val { font-size: 2.7rem; } .dday-mile { grid-template-columns: auto 1fr; } .dday-mile-date { grid-column: 1 / -1; } }
