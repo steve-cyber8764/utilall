@@ -13,6 +13,7 @@
       'nav.loan': '금리 계산기',
       'nav.bmi': '비만도(BMI)',
       'nav.dday': 'D-day 계산기',
+      'nav.cube': '큐브 솔버',
       'nav.base': '진수(진법) 변환기',
       'nav.area': '넓이 변환기',
       'nav.length': '길이 변환기',
@@ -113,6 +114,8 @@
       'bmi.note3': '아시아·태평양(대한비만학회) 기준은 국제(WHO) 기준보다 비만 판정 값이 낮습니다(한국인 권장).',
       'bmi.note4': '정확한 건강 상태는 의료 전문가와 상담하세요.',
 
+      'card.cube.title': '큐브 솔버',
+      'card.cube.desc': '2×2부터 20×20까지 큐브를 섞고, 단계별 목표를 보면서 한 단계씩 자동으로 맞추는 과정을 3D로 봅니다.',
       'card.dday.title': 'D-day 계산기',
       'card.dday.desc': '목표일까지 남은 D-day, 두 날짜 사이 일수, 시작일부터 며칠째(100일·기념일)를 계산합니다.',
       'dday.title': 'D-day 계산기',
@@ -514,6 +517,7 @@
       'nav.loan': 'Loan Calculator',
       'nav.bmi': 'BMI Calculator',
       'nav.dday': 'D-day Counter',
+      'nav.cube': 'Cube Solver',
       'nav.base': 'Base Converter',
       'nav.area': 'Area Converter',
       'nav.length': 'Length Converter',
@@ -614,6 +618,8 @@
       'bmi.note3': 'The Asia-Pacific standard classifies obesity at lower BMI values than the WHO standard (recommended for Koreans).',
       'bmi.note4': 'Consult a medical professional for an accurate health assessment.',
 
+      'card.cube.title': 'Cube Solver',
+      'card.cube.desc': 'Scramble a 2×2 up to 20×20 cube and watch it get solved step by step in 3D, with each goal shown on screen.',
       'card.dday.title': 'D-day Counter',
       'card.dday.desc': 'Count days to a target date, days between two dates, or days since a start date (100 days, anniversaries).',
       'dday.title': 'D-day Counter',
