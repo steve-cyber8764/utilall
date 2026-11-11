@@ -216,7 +216,14 @@ function scramble() {
   updateUI();
 }
 
+// 3초 동안 입력이 없으면 카메라가 천천히 돈다
+let lastInput = performance.now(), lastFrame = performance.now();
+for (const ev of ['pointerdown', 'pointermove', 'wheel', 'keydown', 'touchstart'])
+  addEventListener(ev, () => lastInput = performance.now(), { capture: true, passive: true });
+
 function tick(now) {
+  if (now - lastInput > 3000) view.theta += Math.min(now - lastFrame, 100) * 0.0003;
+  lastFrame = now;
   if (anim) {
     const t = anim.dur ? Math.min(1, (now - anim.t0) / anim.dur) : 1;
     const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
