@@ -33,25 +33,25 @@
 <body>
 <div id="bar">
   <a id="home" href="/" title="UtilAll 홈으로">⚡ UtilAll</a>
-  <label>크기 <select id="size"></select></label>
-  <button id="scramble">랜덤 섞기</button>
-  <button id="reset">초기화</button>
-  <label>속도
+  <label><span data-t="size">크기</span> <select id="size"></select></label>
+  <button id="scramble" data-t="scramble">랜덤 섞기</button>
+  <button id="reset" data-t="reset">초기화</button>
+  <label><span data-t="speed">속도</span>
     <select id="speed">
-      <option value="1500">매우 느림</option>
-      <option value="800">느림</option>
-      <option value="400" selected>보통</option>
-      <option value="150">빠름</option>
-      <option value="40">매우 빠름</option>
-      <option value="0">순간 (애니메이션 없음)</option>
+      <option value="1500" data-t="s1500">매우 느림</option>
+      <option value="800" data-t="s800">느림</option>
+      <option value="400" selected data-t="s400">보통</option>
+      <option value="150" data-t="s150">빠름</option>
+      <option value="40" data-t="s40">매우 빠름</option>
+      <option value="0" data-t="s0">순간 (애니메이션 없음)</option>
     </select>
   </label>
   <button id="play">▶ 맞추기 시작</button>
-  <button id="step">한 단계</button>
+  <button id="step" data-t="step">한 단계</button>
   <span id="status"></span>
 </div>
 <div id="goal"><div id="goalText"></div><div id="goalSub"></div></div>
-<div id="help">스티커를 드래그하면 그 줄이 돌아갑니다 · 빈 곳 드래그: 시점 회전 · 휠: 확대/축소</div>
+<div id="help" data-t="help">스티커를 드래그하면 그 줄이 돌아갑니다 · 빈 곳 드래그: 시점 회전 · 휠: 확대/축소</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="solver.js"></script>
 <script>
@@ -60,6 +60,23 @@ const COLORS = [0xc41e3a, 0xff6a00, 0xffffff, 0xffd500, 0x009b48, 0x0046ad];
 const INNER = 0x111111;
 const AX = ['x', 'y', 'z'];
 const $ = id => document.getElementById(id);
+
+// 사이트(i18n.js)와 같은 규칙으로 언어 결정: 저장된 선택 → 한국 시간대 → 브라우저 언어
+const LANG = (() => {
+  try { const s = localStorage.getItem('langPreference'); if (s === 'ko' || s === 'en') return s; } catch (e) {}
+  try { if (Intl.DateTimeFormat().resolvedOptions().timeZone === 'Asia/Seoul') return 'ko'; } catch (e) {}
+  return (navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en';
+})();
+const tr = (ko, en) => LANG === 'en' ? en : ko;
+if (LANG === 'en') {
+  const EN = { size: 'Size', scramble: 'Scramble', reset: 'Reset', speed: 'Speed', s1500: 'Very slow', s800: 'Slow', s400: 'Normal',
+    s150: 'Fast', s40: 'Very fast', s0: 'Instant (no animation)', step: 'One step',
+    help: 'Drag a sticker to turn its layer · Drag empty space: rotate view · Wheel: zoom' };
+  document.documentElement.lang = 'en';
+  document.title = 'Cube Solver — UtilAll | 2×2–20×20 Auto Solver';
+  document.querySelectorAll('[data-t]').forEach(el => el.textContent = EN[el.dataset.t]);
+  if ($('home')) $('home').title = 'UtilAll home';
+}
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(devicePixelRatio);
@@ -143,7 +160,7 @@ function finishMove() {
 
 // ---- 풀이 계획 ----
 function makePlan() {
-  const stages = CubeSolver.solve(md, cstate);
+  const stages = CubeSolver.solve(md, cstate, LANG);
   const steps = [], stageStart = [];
   stages.forEach((s, si) => { stageStart.push(steps.length); s.moves.forEach(m => steps.push({ m, si })); });
   return { stages, steps, stageStart, i: 0 };
@@ -154,7 +171,7 @@ function ensurePlan(then) {
   if (md.isSolved(cstate) || busy() || computing) return;
   computing = true; updateUI();
   setTimeout(() => { // 화면에 "계산 중"을 먼저 그린 뒤 계산
-    try { plan = makePlan(); } catch (e) { console.error(e); plan = null; $('goalText').textContent = '풀이를 찾지 못했습니다.'; }
+    try { plan = makePlan(); } catch (e) { console.error(e); plan = null; $('goalText').textContent = tr('풀이를 찾지 못했습니다.', 'Could not find a solution.'); }
     computing = false;
     if (plan) then();
     updateUI();
@@ -180,24 +197,24 @@ function busy() { return !!anim || queue.length > 0; }
 function updateUI() {
   const solved = md.isSolved(cstate);
   const left = plan ? plan.steps.length - plan.i : 0;
-  $('status').textContent = computing ? '계산 중…' : solved ? '✅ 맞춰진 상태' : plan ? `남은 회전: ${left}` : '섞인 상태';
-  $('play').textContent = playing ? '⏸ 일시정지' : '▶ 맞추기 시작';
+  $('status').textContent = computing ? tr('계산 중…', 'Computing…') : solved ? tr('✅ 맞춰진 상태', '✅ Solved') : plan ? tr(`남은 회전: ${left}`, `Moves left: ${left}`) : tr('섞인 상태', 'Scrambled');
+  $('play').textContent = playing ? tr('⏸ 일시정지', '⏸ Pause') : tr('▶ 맞추기 시작', '▶ Start solving');
   $('play').disabled = computing || (solved && !playing);
   $('step').disabled = computing || solved || playing;
   $('scramble').disabled = computing || playing;
   $('size').disabled = computing;
 
   let text, sub = '';
-  if (computing) text = '풀이를 계산하는 중입니다…';
-  else if (plan && plan.i > 0 && left === 0 && !anim) { text = '🎉 완성! 모든 목표를 달성했습니다.'; sub = `총 ${plan.stages.length}개 목표 · ${plan.steps.length}회전`; }
+  if (computing) text = tr('풀이를 계산하는 중입니다…', 'Computing the solution…');
+  else if (plan && plan.i > 0 && left === 0 && !anim) { text = tr('🎉 완성! 모든 목표를 달성했습니다.', '🎉 Solved! All goals completed.'); sub = tr(`총 ${plan.stages.length}개 목표 · ${plan.steps.length}회전`, `${plan.stages.length} goals · ${plan.steps.length} moves`); }
   else if (plan && (plan.i > 0 || left)) {
     const cur = anim && anim.fromPlan ? plan.i - 1 : plan.i; // 지금 돌고 있거나 다음에 돌 회전
     const si = plan.steps[Math.min(cur, plan.steps.length - 1)].si;
     const stage = plan.stages[si], done = plan.i - plan.stageStart[si];
-    text = `현재 목표: ${stage.goal}`;
-    sub = `목표 ${si + 1}/${plan.stages.length} · 이 목표의 회전 ${done}/${stage.moves.length} · 남은 회전 ${left}`;
-  } else if (solved) text = '맞춰진 상태입니다. 섞은 뒤 ‘맞추기 시작’을 누르세요.';
-  else text = '‘맞추기 시작’ 또는 ‘한 단계’를 누르면 목표가 여기에 표시됩니다.';
+    text = tr(`현재 목표: ${stage.goal}`, `Current goal: ${stage.goal}`);
+    sub = tr(`목표 ${si + 1}/${plan.stages.length} · 이 목표의 회전 ${done}/${stage.moves.length} · 남은 회전 ${left}`, `Goal ${si + 1}/${plan.stages.length} · Moves in this goal ${done}/${stage.moves.length} · Moves left ${left}`);
+  } else if (solved) text = tr('맞춰진 상태입니다. 섞은 뒤 ‘맞추기 시작’을 누르세요.', 'The cube is solved. Scramble it, then press ‘Start solving’.');
+  else text = tr('‘맞추기 시작’ 또는 ‘한 단계’를 누르면 목표가 여기에 표시됩니다.', 'Press ‘Start solving’ or ‘One step’ to see goals here.');
   $('goalText').textContent = text;
   $('goalSub').textContent = sub;
 }

@@ -3,7 +3,13 @@
 // 모든 조각은 "그 조각 3개만 바꾸는" 교환자(commutator) 3-사이클로 맞추므로 이미 맞춘 부분은 깨지지 않는다.
 (function (root) {
 'use strict';
-const NAMES = ['빨강', '주황', '흰색', '노랑', '초록', '파랑']; // +x -x +y -y +z -z
+const NAMES = { ko: ['빨강', '주황', '흰색', '노랑', '초록', '파랑'], en: ['Red', 'Orange', 'White', 'Yellow', 'Green', 'Blue'] }; // +x -x +y -y +z -z
+const GOALS = {
+  ko: { mid: '가운데 센터를 제자리로 맞춥니다.', parity: '패리티(조각 배치의 짝·홀)를 맞춥니다.',
+        center: a => `${a} 면의 센터를 맞춥니다.`, edge: (a, b) => `${a}-${b} 모서리를 맞춥니다.`, corner: s => `${s} 코너를 맞춥니다.` },
+  en: { mid: 'Put the middle centers in place.', parity: 'Fix parity (even/odd piece arrangement).',
+        center: a => `Solve the ${a} center.`, edge: (a, b) => `Solve the ${a}-${b} edge.`, corner: s => `Solve the ${s} corner.` },
+};
 
 // 스티커 id = face*N³ + 큐비 위치(x,y,z). 회전 m = ((축*N + 층) << 2) | q, q는 +축 기준 90°×q
 function Model(N) {
@@ -215,7 +221,8 @@ const cross = (u, v) => [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u
 const dot = (u, v) => u[0] * v[0] + u[1] * v[1] + u[2] * v[2];
 
 // 반환: [{ goal: '…을 맞춥니다.', moves: [회전…] }, …]
-function solve(md, st0) {
+function solve(md, st0, lang = 'ko') {
+  const G = GOALS[lang] || GOALS.ko, NM = NAMES[lang] || NAMES.ko;
   const F = md.fam || (md.fam = buildFamilies(md));
   const { N, N3, h } = md;
   const st = Uint8Array.from(st0);
@@ -336,7 +343,7 @@ function solve(md, st0) {
     }
     const path = [];
     for (let v = '012345'; seen.get(v); v = seen.get(v)[0]) path.unshift(seen.get(v)[1]);
-    begin('가운데 센터를 제자리로 맞춥니다.');
+    begin(G.mid);
     path.forEach(doMove);
     tc.forEach(s => lock(md.cubieOf(s)));
   }
@@ -372,13 +379,13 @@ function solve(md, st0) {
     if (odd(orbitK)) { const m = md.enc(1, k, 1); md.apply(st, m); parityMoves.push(m); }
   }
   if (parityMoves.length) {
-    begin('패리티(조각 배치의 짝·홀)를 맞춥니다.');
+    begin(G.parity);
     cur.moves.push(...parityMoves);
   }
 
   // 3) 면별 센터
   if (N >= 4) for (const f of [2, 3, 4, 5, 0, 1]) {
-    begin(`${NAMES[f]} 면의 센터를 맞춥니다.`);
+    begin(G.center(NM[f]));
     const o = fixOf([f]), slots = [];
     for (let i = 1; i < h; i++) for (let j = 1; j < h; j++) {
       const p = [0, 0, 0], fr = [0, 1, 2].filter(a => !(a in o));
@@ -389,12 +396,12 @@ function solve(md, st0) {
   }
   // 4) 모서리
   if (N >= 3) for (const e of edges) {
-    begin(`${NAMES[e[0]]}-${NAMES[e[1]]} 모서리를 맞춥니다.`);
+    begin(G.edge(NM[e[0]], NM[e[1]]));
     solveSlots(edgeCubies(e));
   }
   // 5) 코너
   for (const c of corners) {
-    begin(`${c.map(f => NAMES[f]).join('-')} 코너를 맞춥니다.`);
+    begin(G.corner(c.map(f => NM[f]).join('-')));
     solveSlots([cornerCubie(c)]);
   }
 
