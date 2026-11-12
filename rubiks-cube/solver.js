@@ -5,11 +5,13 @@
 'use strict';
 const NAMES = { ko: ['빨강', '주황', '흰색', '노랑', '초록', '파랑'], en: ['Red', 'Orange', 'White', 'Yellow', 'Green', 'Blue'] }; // +x -x +y -y +z -z
 const GOALS = {
-  ko: { mid: '가운데 센터를 제자리로 맞춥니다.', parity: '패리티(조각 배치의 짝·홀)를 맞춥니다.',
-        center: a => `${a} 면의 센터를 맞춥니다.`, edge: (a, b) => `${a}-${b} 모서리를 맞춥니다.`, corner: s => `${s} 코너를 맞춥니다.` },
-  en: { mid: 'Put the middle centers in place.', parity: 'Fix parity (even/odd piece arrangement).',
-        center: a => `Solve the ${a} center.`, edge: (a, b) => `Solve the ${a}-${b} edge.`, corner: s => `Solve the ${s} corner.` },
+  ko: { mid: () => '가운데 센터를 제자리로 맞춥니다.', parity: () => '패리티(조각 배치의 짝·홀)를 맞춥니다.',
+        center: n => `${n[0]} 면의 센터를 맞춥니다.`, edge: n => `${n[0]}-${n[1]} 모서리를 맞춥니다.`, corner: n => `${n.join('-')} 코너를 맞춥니다.` },
+  en: { mid: () => 'Put the middle centers in place.', parity: () => 'Fix parity (even/odd piece arrangement).',
+        center: n => `Solve the ${n[0]} center.`, edge: n => `Solve the ${n[0]}-${n[1]} edge.`, corner: n => `Solve the ${n.join('-')} corner.` },
 };
+// 목표 문장을 모든 언어로 만들어 둔다 (화면에서 언어를 바꿔도 다시 풀 필요 없음)
+const goalAll = (k, faces = []) => { const r = {}; for (const l in GOALS) r[l] = GOALS[l][k](faces.map(f => NAMES[l][f])); return r; };
 
 // 스티커 id = face*N³ + 큐비 위치(x,y,z). 회전 m = ((축*N + 층) << 2) | q, q는 +축 기준 90°×q
 function Model(N) {
@@ -222,13 +224,12 @@ const dot = (u, v) => u[0] * v[0] + u[1] * v[1] + u[2] * v[2];
 
 // 반환: [{ goal: '…을 맞춥니다.', moves: [회전…] }, …]
 function solve(md, st0, lang = 'ko') {
-  const G = GOALS[lang] || GOALS.ko, NM = NAMES[lang] || NAMES.ko;
   const F = md.fam || (md.fam = buildFamilies(md));
   const { N, N3, h } = md;
   const st = Uint8Array.from(st0);
   const stages = [];
   let cur = null;
-  const begin = goal => stages.push(cur = { goal, moves: [] });
+  const begin = goals => stages.push(cur = { goal: goals[lang] || goals.ko, goals, moves: [] });
   const doMove = m => { md.apply(st, m); cur.moves.push(m); };
   const locked = new Uint8Array(N3);
   const free = new Map();
@@ -343,7 +344,7 @@ function solve(md, st0, lang = 'ko') {
     }
     const path = [];
     for (let v = '012345'; seen.get(v); v = seen.get(v)[0]) path.unshift(seen.get(v)[1]);
-    begin(G.mid);
+    begin(goalAll('mid'));
     path.forEach(doMove);
     tc.forEach(s => lock(md.cubieOf(s)));
   }
@@ -379,13 +380,13 @@ function solve(md, st0, lang = 'ko') {
     if (odd(orbitK)) { const m = md.enc(1, k, 1); md.apply(st, m); parityMoves.push(m); }
   }
   if (parityMoves.length) {
-    begin(G.parity);
+    begin(goalAll('parity'));
     cur.moves.push(...parityMoves);
   }
 
   // 3) 면별 센터
   if (N >= 4) for (const f of [2, 3, 4, 5, 0, 1]) {
-    begin(G.center(NM[f]));
+    begin(goalAll('center', [f]));
     const o = fixOf([f]), slots = [];
     for (let i = 1; i < h; i++) for (let j = 1; j < h; j++) {
       const p = [0, 0, 0], fr = [0, 1, 2].filter(a => !(a in o));
@@ -396,17 +397,17 @@ function solve(md, st0, lang = 'ko') {
   }
   // 4) 모서리
   if (N >= 3) for (const e of edges) {
-    begin(G.edge(NM[e[0]], NM[e[1]]));
+    begin(goalAll('edge', e));
     solveSlots(edgeCubies(e));
   }
   // 5) 코너
   for (const c of corners) {
-    begin(G.corner(c.map(f => NM[f]).join('-')));
+    begin(goalAll('corner', c));
     solveSlots([cornerCubie(c)]);
   }
 
   if (!md.isSolved(st)) throw new Error('not solved');
-  return stages.map(s => ({ goal: s.goal, moves: simplify(md, s.moves) })).filter(s => s.moves.length);
+  return stages.map(s => ({ goal: s.goal, goals: s.goals, moves: simplify(md, s.moves) })).filter(s => s.moves.length);
 }
 
 const api = { Model, solve, simplify };
